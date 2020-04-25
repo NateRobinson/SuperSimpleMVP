@@ -1,0 +1,110 @@
+ext {
+
+	android = [
+		compileSdkVersion: 28,
+		buildToolsVersion: "28.0.3",
+		minSdkVersion: 21,
+		targetSdkVersion: 28,
+		versionCode: 1,
+		versionName: "1.0.0"
+	]
+
+	version = [
+		androidXVersion: "1.0.0",
+		retrofitSdkVersion: "2.6.0",
+		dagger2SdkVersion: "2.23.2",
+		glideSdkVersion: "4.10.0",
+		butterknifeSdkVersion: "10.1.0",
+		retrofit: "2.5.0",
+		rxlifecycle2SdkVersion: "2.2.2",
+		canarySdkVersion: "1.6.3"
+	]
+
+	dependencies = [
+		//support
+		"appcompat-v7": "androidx.appcompat:appcompat:${version["androidXVersion"]}",
+		"design": "com.google.android.material:material:${version["androidXVersion"]}",
+		"cardview-v7": "androidx.cardview:cardview:${version["androidXVersion"]}",
+		"recyclerview-v7": "androidx.recyclerview:recyclerview:${version["androidXVersion"]}",
+		"constraintlayout": "androidx.constraintlayout:constraintlayout:1.1.3",
+
+		//network
+		"retrofit": "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
+		"retrofit-converter-gson": "com.squareup.retrofit2:converter-gson:${version["retrofitSdkVersion"]}",
+		"retrofit-adapter-rxjava2": "com.squareup.retrofit2:adapter-rxjava2:${version["retrofitSdkVersion"]}",
+		"glide": "com.github.bumptech.glide:glide:${version["glideSdkVersion"]}",
+		"okhttp3": "com.squareup.okhttp3:okhttp:4.2.2",
+		"logging-interceptor": "com.squareup.okhttp3:logging-interceptor:4.2.1",
+		"glide-compiler": "com.github.bumptech.glide:compiler:${version["glideSdkVersion"]}",
+		"glide-loader-okhttp3": "com.github.bumptech.glide:okhttp3-integration:${version["glideSdkVersion"]}",
+
+		//view
+		"butterknife": "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
+		"butterknife-compiler": "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
+		"paginate": "com.github.markomilos:paginate:0.5.1",
+		"BottomNavigationViewEx": "com.github.ittianyu:BottomNavigationViewEx:1.2.4",
+		"BaseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30",
+		"bga-qrcode-zxing": "cn.bingoogolapple:bga-qrcode-zxing:1.3.4",
+		"RoundImage": "com.makeramen:roundedimageview:2.3.0",
+		"iconics-core": "com.mikepenz:iconics-core:2.9.3@aar",
+		"iconics-views": "com.mikepenz:iconics-views:2.9.3@aar",
+		"slidetoact": "com.ncorti:slidetoact:0.5.1",
+		"shimmerlayout": "io.supercharge:shimmerlayout:2.1.0",
+		"spots-dialog": "com.github.d-max:spots-dialog:1.1@aar",
+		"lfilepickerlibrary": "com.leon:lfilepickerlibrary:1.8.0",
+		"SpinnerDatePicker": "com.github.drawers:SpinnerDatePicker:1.0.6",
+		"AlphabetIndex-Fast-Scroll-RecyclerView": "com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.92",
+		"glide-transformations": "jp.wasabeef:glide-transformations:4.1.0",
+		"Android-PickerView": "com.contrarywind:Android-PickerView:4.1.8",
+		"progressmanager": "me.jessyan:progressmanager:1.5.0",
+		"SimpleRatingBar": "com.github.ome450901:SimpleRatingBar:1.4.3",
+
+		//rx
+		"rxcache-jolyglot-gson": "com.github.VictorAlbertos.Jolyglot:gson:0.0.4",
+		//rx2
+		"rxerrorhandler2": "me.jessyan:rxerrorhandler:2.1.1",
+		"rxpermissions2": "com.github.tbruyelle:rxpermissions:0.10.2",
+		"rxandroid2": "io.reactivex.rxjava2:rxandroid:2.1.1",
+		"rxjava2": "io.reactivex.rxjava2:rxjava:2.2.10",
+		"rxcache2": "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x",
+		"rxlifecycle2": "com.trello.rxlifecycle2:rxlifecycle:${version["rxlifecycle2SdkVersion"]}",
+		"rxlifecycle2-android": "com.trello.rxlifecycle2:rxlifecycle-android:${version["rxlifecycle2SdkVersion"]}",
+		"rxlifecycle2-components": "com.trello.rxlifecycle2:rxlifecycle-components:${version["rxlifecycle2SdkVersion"]}",
+
+		//tools
+		"dagger2": "com.google.dagger:dagger:${version["dagger2SdkVersion"]}",
+		"dagger2-compiler": "com.google.dagger:dagger-compiler:${version["dagger2SdkVersion"]}",
+		"androideventbus": "org.simple:androideventbus:1.0.5.1",
+		"gson": "com.google.code.gson:gson:2.8.5",
+		"multidex": "androidx.multidex:multidex:2.0.0",
+		"arouter": "com.alibaba:arouter-api:1.5.0",
+		"arouter-compiler": "com.alibaba:arouter-compiler:1.2.2",
+		"retrofit-url-manager": "me.jessyan:retrofit-url-manager:1.4.0",
+		"utilcode": "com.blankj:utilcode:1.25.4",
+		"fingerprintidentify": "com.wei.android.lib:fingerprintidentify:1.2.6",
+		"autosize": "me.jessyan:autosize:1.1.2",
+		"crashlytics": "com.crashlytics.sdk.android:crashlytics:2.9.9",
+		"update-app": "com.qianwen:update-app:3.5.2",
+		"okhttputils": "com.zhy:okhttputils:2.6.2",
+		"signature-pad": "com.github.gcacace:signature-pad:1.2.1",
+		"protobuf-java": "com.google.protobuf:protobuf-java:3.6.1",
+		"commons-lang3": "org.apache.commons:commons-lang3:3.4",
+		"javax.inject": "javax.inject:javax.inject:1",
+		"apollo-runtime": "com.apollographql.apollo:apollo-runtime:1.2.0",
+		"androideventbus": "org.simple:androideventbus:1.0.5.1",
+		"lifecyclemodel": "me.jessyan:lifecyclemodel:1.0.1",
+
+		//test
+		"junit": "junit:junit:4.12",
+		"androidJUnitRunner": "androidx.test.runner.AndroidJUnitRunner",
+		"runner": "androidx.test:runner:1.1.0",
+		"mockito-core": "org.mockito:mockito-coarouter-compilerre:1.+",
+		"timber": "com.jakewharton.timber:timber:4.7.0",
+		"logger": "com.orhanobut:logger:2.2.0",
+		"umeng-analytics": "com.umeng.analytics:analytics:6.0.1",
+		"guava": "com.google.guava:guava:${version["guavaVersion"]}",
+		"room-test": "androidx.room:room-testing:2.0.0",
+		"canary-debug": "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
+		"canary-release": "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}",
+	]
+}

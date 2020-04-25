@@ -1,2 +1,2 @@
 rootProject.name='SuperSimpleMVP'
-include ':app'
+include ':app', ':ssmvplib'
