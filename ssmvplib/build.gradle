@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-	//support
+	//support lib
 	api(rootProject.ext.dependencies["appcompat-v7"]) {
 		exclude module: 'support-annotations'
 	}
@@ -37,12 +37,7 @@ dependencies {
 	api(rootProject.ext.dependencies["recyclerview-v7"]) {
 		exclude module: 'support-annotations'
 	}
-	//view
-	api(rootProject.ext.dependencies["butterknife"]) {
-		exclude module: 'support-annotations'
-		exclude module: 'support-compat'
-	}
-	//rx
+	//rx lib
 	api rootProject.ext.dependencies["rxjava2"]
 	api(rootProject.ext.dependencies["rxandroid2"]) {
 		exclude module: 'rxjava'
@@ -55,11 +50,11 @@ dependencies {
 	implementation(rootProject.ext.dependencies["rxcache-jolyglot-gson"]) {
 		exclude module: 'gson'
 	}
-	api(rootProject.ext.dependencies["rxlifecycle2"]) {
+	api(rootProject.ext.dependencies["rxlifecycle3"]) {
 		exclude module: 'rxjava'
 		exclude module: 'jsr305'
 	}
-	api(rootProject.ext.dependencies["rxlifecycle2-android"]) {
+	api(rootProject.ext.dependencies["rxlifecycle3-android"]) {
 		exclude module: 'support-annotations'
 		exclude module: 'rxjava'
 		exclude module: 'rxandroid'
@@ -70,8 +65,7 @@ dependencies {
 		exclude module: 'support-annotations'
 	}
 	api rootProject.ext.dependencies['rxerrorhandler2']
-
-	//network
+	//network lib
 	api(rootProject.ext.dependencies["retrofit"]) {
 		exclude module: 'okhttp'
 		exclude module: 'okio'
@@ -98,15 +92,14 @@ dependencies {
 		exclude module: 'support-v4'
 		exclude module: 'support-annotations'
 	}
+	api rootProject.ext.dependencies["utilcode"]
 	//test
 	api rootProject.ext.dependencies["timber"]
-	api rootProject.ext.dependencies["utilcode"]
-
 	annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
-	kapt rootProject.ext.dependencies["dagger2-compiler"]
 	annotationProcessor(rootProject.ext.dependencies["glide-compiler"]) {
 		exclude module: 'jsr305'
 	}
+	kapt rootProject.ext.dependencies["dagger2-compiler"]
 	kapt(rootProject.ext.dependencies["glide-compiler"]) {
 		exclude module: 'jsr305'
 	}

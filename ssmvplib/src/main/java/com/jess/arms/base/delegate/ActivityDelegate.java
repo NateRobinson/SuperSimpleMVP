@@ -33,22 +33,19 @@ import androidx.annotation.Nullable;
  * ================================================
  */
 public interface ActivityDelegate {
-    String LAYOUT_LINEARLAYOUT = "LinearLayout";
-    String LAYOUT_FRAMELAYOUT = "FrameLayout";
-    String LAYOUT_RELATIVELAYOUT = "RelativeLayout";
-    String ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE";
+	String ACTIVITY_DELEGATE = "ACTIVITY_DELEGATE";
 
-    void onCreate(@Nullable Bundle savedInstanceState);
+	void onCreate(@Nullable Bundle savedInstanceState);
 
-    void onStart();
+	void onStart();
 
-    void onResume();
+	void onResume();
 
-    void onPause();
+	void onPause();
 
-    void onStop();
+	void onStop();
 
-    void onSaveInstanceState(@NonNull Bundle outState);
+	void onSaveInstanceState(@NonNull Bundle outState);
 
-    void onDestroy();
+	void onDestroy();
 }

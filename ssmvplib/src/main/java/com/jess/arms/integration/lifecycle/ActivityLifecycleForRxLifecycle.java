@@ -21,8 +21,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.trello.rxlifecycle2.RxLifecycle;
-import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.ActivityEvent;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,7 +31,7 @@ import io.reactivex.subjects.Subject;
 
 /**
  * ================================================
- * 配合 {@link ActivityLifecycleable} 使用,使 {@link Activity} 具有 {@link RxLifecycle} 的特性
+ * 配合 {@link ActivityLifecycleable} 使用,使 {@link Activity} 具有 {@link com.trello.rxlifecycle3.RxLifecycle} 的特性
  * <p>
  * Created by JessYan on 25/08/2017 18:56
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
@@ -41,73 +40,73 @@ import io.reactivex.subjects.Subject;
  */
 @Singleton
 public class ActivityLifecycleForRxLifecycle implements Application.ActivityLifecycleCallbacks {
-    @Inject
-    Lazy<FragmentLifecycleForRxLifecycle> mFragmentLifecycle;
+	@Inject
+	Lazy<FragmentLifecycleForRxLifecycle> mFragmentLifecycle;
 
-    @Inject
-    public ActivityLifecycleForRxLifecycle() {
-    }
+	@Inject
+	public ActivityLifecycleForRxLifecycle() {
+	}
 
-    /**
-     * 通过桥梁对象 {@code BehaviorSubject<ActivityEvent> mLifecycleSubject}
-     * 在每个 Activity 的生命周期中发出对应的生命周期事件
-     */
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.CREATE);
-            if (activity instanceof FragmentActivity) {
-                ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(mFragmentLifecycle.get(), true);
-            }
-        }
-    }
+	/**
+	 * 通过桥梁对象 {@code BehaviorSubject<ActivityEvent> mLifecycleSubject}
+	 * 在每个 Activity 的生命周期中发出对应的生命周期事件
+	 */
+	@Override
+	public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.CREATE);
+			if (activity instanceof FragmentActivity) {
+				((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(mFragmentLifecycle.get(), true);
+			}
+		}
+	}
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.START);
-        }
-    }
+	@Override
+	public void onActivityStarted(Activity activity) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.START);
+		}
+	}
 
-    @Override
-    public void onActivityResumed(Activity activity) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.RESUME);
-        }
-    }
+	@Override
+	public void onActivityResumed(Activity activity) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.RESUME);
+		}
+	}
 
-    @Override
-    public void onActivityPaused(Activity activity) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.PAUSE);
-        }
-    }
+	@Override
+	public void onActivityPaused(Activity activity) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.PAUSE);
+		}
+	}
 
-    @Override
-    public void onActivityStopped(Activity activity) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.STOP);
-        }
-    }
+	@Override
+	public void onActivityStopped(Activity activity) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.STOP);
+		}
+	}
 
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+	@Override
+	public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
 
-    }
+	}
 
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        if (activity instanceof ActivityLifecycleable) {
-            obtainSubject(activity).onNext(ActivityEvent.DESTROY);
-        }
-    }
+	@Override
+	public void onActivityDestroyed(Activity activity) {
+		if (activity instanceof ActivityLifecycleable) {
+			obtainSubject(activity).onNext(ActivityEvent.DESTROY);
+		}
+	}
 
-    /**
-     * 从 {@link com.jess.arms.base.BaseActivity} 中获得桥梁对象 {@code BehaviorSubject<ActivityEvent> mLifecycleSubject}
-     *
-     * @see <a href="https://mcxiaoke.gitbooks.io/rxdocs/content/Subject.html">BehaviorSubject 官方中文文档</a>
-     */
-    private Subject<ActivityEvent> obtainSubject(Activity activity) {
-        return ((ActivityLifecycleable) activity).provideLifecycleSubject();
-    }
+	/**
+	 * 从 {@link com.jess.arms.base.BaseActivity} 中获得桥梁对象 {@code BehaviorSubject<ActivityEvent> mLifecycleSubject}
+	 *
+	 * @see <a href="https://mcxiaoke.gitbooks.io/rxdocs/content/Subject.html">BehaviorSubject 官方中文文档</a>
+	 */
+	private Subject<ActivityEvent> obtainSubject(Activity activity) {
+		return ((ActivityLifecycleable) activity).provideLifecycleSubject();
+	}
 }
