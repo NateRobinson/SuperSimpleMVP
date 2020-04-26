@@ -19,11 +19,11 @@ import com.jess.arms.integration.lifecycle.ActivityLifecycleable;
 import com.jess.arms.integration.lifecycle.FragmentLifecycleable;
 import com.jess.arms.integration.lifecycle.Lifecycleable;
 import com.jess.arms.mvp.IView;
-import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.trello.rxlifecycle2.RxLifecycle;
-import com.trello.rxlifecycle2.android.ActivityEvent;
-import com.trello.rxlifecycle2.android.FragmentEvent;
-import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.RxLifecycle;
+import com.trello.rxlifecycle3.android.ActivityEvent;
+import com.trello.rxlifecycle3.android.FragmentEvent;
+import com.trello.rxlifecycle3.android.RxLifecycleAndroid;
 
 import io.reactivex.annotations.NonNull;
 

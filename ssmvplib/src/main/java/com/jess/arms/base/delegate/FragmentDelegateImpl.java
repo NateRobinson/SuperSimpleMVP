@@ -26,10 +26,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.jess.arms.utils.ArmsUtils;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import timber.log.Timber;
-
 /**
  * ================================================
  * {@link FragmentDelegate} 默认实现类
@@ -40,95 +36,81 @@ import timber.log.Timber;
  * ================================================
  */
 public class FragmentDelegateImpl implements FragmentDelegate {
-    private FragmentManager mFragmentManager;
-    private Fragment mFragment;
-    private IFragment iFragment;
-    private Unbinder mUnbinder;
+	private FragmentManager mFragmentManager;
+	private Fragment mFragment;
+	private IFragment iFragment;
 
-    public FragmentDelegateImpl(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
-        this.mFragmentManager = fragmentManager;
-        this.mFragment = fragment;
-        this.iFragment = (IFragment) fragment;
-    }
+	public FragmentDelegateImpl(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
+		this.mFragmentManager = fragmentManager;
+		this.mFragment = fragment;
+		this.iFragment = (IFragment) fragment;
+	}
 
-    @Override
-    public void onAttach(@NonNull Context context) {
+	@Override
+	public void onAttach(@NonNull Context context) {
 
-    }
+	}
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        iFragment.setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mFragment.getActivity()));
-    }
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		iFragment.setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mFragment.getActivity()));
+	}
 
-    @Override
-    public void onCreateView(@Nullable View view, @Nullable Bundle savedInstanceState) {
-        //绑定到butterknife
-        if (view != null)
-            mUnbinder = ButterKnife.bind(mFragment, view);
-    }
+	@Override
+	public void onCreateView(@Nullable View view, @Nullable Bundle savedInstanceState) {
+	}
 
-    @Override
-    public void onActivityCreate(@Nullable Bundle savedInstanceState) {
-        iFragment.initData(savedInstanceState);
-    }
+	@Override
+	public void onActivityCreate(@Nullable Bundle savedInstanceState) {
+		iFragment.initData(savedInstanceState);
+	}
 
-    @Override
-    public void onStart() {
+	@Override
+	public void onStart() {
 
-    }
+	}
 
-    @Override
-    public void onResume() {
+	@Override
+	public void onResume() {
 
-    }
+	}
 
-    @Override
-    public void onPause() {
+	@Override
+	public void onPause() {
 
-    }
+	}
 
-    @Override
-    public void onStop() {
+	@Override
+	public void onStop() {
 
-    }
+	}
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+	@Override
+	public void onSaveInstanceState(@NonNull Bundle outState) {
 
-    }
+	}
 
-    @Override
-    public void onDestroyView() {
-        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
-            try {
-                mUnbinder.unbind();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-                //fix Bindings already cleared
-                Timber.w("onDestroyView: " + e.getMessage());
-            }
-        }
-    }
+	@Override
+	public void onDestroyView() {
+	}
 
-    @Override
-    public void onDestroy() {
-        this.mUnbinder = null;
-        this.mFragmentManager = null;
-        this.mFragment = null;
-        this.iFragment = null;
-    }
+	@Override
+	public void onDestroy() {
+		this.mFragmentManager = null;
+		this.mFragment = null;
+		this.iFragment = null;
+	}
 
-    @Override
-    public void onDetach() {
+	@Override
+	public void onDetach() {
 
-    }
+	}
 
-    /**
-     * Return true if the fragment is currently added to its activity.
-     */
-    @Override
-    public boolean isAdded() {
-        return mFragment != null && mFragment.isAdded();
-    }
+	/**
+	 * Return true if the fragment is currently added to its activity.
+	 */
+	@Override
+	public boolean isAdded() {
+		return mFragment != null && mFragment.isAdded();
+	}
 }

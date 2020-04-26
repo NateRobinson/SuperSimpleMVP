@@ -26,7 +26,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.jess.arms.utils.Preconditions;
-import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle3.RxLifecycle;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

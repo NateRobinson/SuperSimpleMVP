@@ -57,7 +57,7 @@ ext {
 		"rxlifecycle3": "com.trello.rxlifecycle3:rxlifecycle:${version["rxlifecycle3SdkVersion"]}",
 		"rxlifecycle3-android": "com.trello.rxlifecycle3:rxlifecycle-android:${version["rxlifecycle3SdkVersion"]}",
 
-		//tools
+		//tools lib
 		"dagger2": "com.google.dagger:dagger:${version["dagger2SdkVersion"]}",
 		"dagger2-compiler": "com.google.dagger:dagger-compiler:${version["dagger2SdkVersion"]}",
 		"androideventbus": "org.simple:androideventbus:1.0.5.1",
@@ -65,12 +65,11 @@ ext {
 		"arouter": "com.alibaba:arouter-api:1.5.0",
 		"arouter-compiler": "com.alibaba:arouter-compiler:1.2.2",
 		"utilcode": "com.blankj:utilcode:1.28.2",
-		"crashlytics": "com.crashlytics.sdk.android:crashlytics:2.9.9",
 		"autosize": "me.jessyan:autosize:1.2.1",
 		"update-app": "com.qianwen:update-app:3.5.2",
 		"lifecyclemodel": "me.jessyan:lifecyclemodel:1.0.1",
 
-		//test
+		//test lib
 		"junit": "junit:junit:4.12",
 		"androidJUnitRunner": "androidx.test.runner.AndroidJUnitRunner",
 		"runner": "androidx.test:runner:1.1.0",
