@@ -2,9 +2,6 @@ package com.nate.ssmvp.dagger.component
 
 import android.app.Application
 import com.google.gson.Gson
-import com.jess.arms.http.imageloader.BaseImageLoaderStrategy
-import com.jess.arms.http.imageloader.ImageLoader
-import com.jess.arms.integration.ConfigModule
 import com.nate.ssmvp.base.SSAppDelegate
 import com.nate.ssmvp.config.SSMVPConfig
 import com.nate.ssmvp.dagger.module.SSAppModule

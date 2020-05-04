@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.jess.arms.http.GlobalHttpHandler
-import com.jess.arms.utils.DataHelper
+import com.nate.ssmvp.http.SSOkHttpHandler
+import com.nate.ssmvp.utils.SSFileUtils
 import dagger.Module
 import dagger.Provides
 import io.rx_cache2.internal.RxCache
@@ -61,7 +61,7 @@ abstract class SSThirdLibModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(application: Application, configuration: OkHttpConfiguration?, builder: OkHttpClient.Builder,
-      interceptors: ArrayList<Interceptor>?, handler: GlobalHttpHandler?, executorService: ExecutorService): OkHttpClient {
+      interceptors: ArrayList<Interceptor>?, handler: SSOkHttpHandler?, executorService: ExecutorService): OkHttpClient {
 
       builder.connectTimeout(TIME_OUT.toLong(), SECONDS).readTimeout(TIME_OUT.toLong(), SECONDS)
 
@@ -127,7 +127,7 @@ abstract class SSThirdLibModule {
     @Named("RxCacheDirectory")
     fun provideRxCacheDirectory(cacheDir: File): File {
       val cacheDirectory = File(cacheDir, "RxCache")
-      return DataHelper.makeDirs(cacheDirectory)
+      return SSFileUtils.makeDirs(cacheDirectory)
     }
 
     /**

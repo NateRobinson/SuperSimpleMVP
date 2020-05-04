@@ -1,7 +1,5 @@
 package com.nate.ssmvp.data.cache
 
-import com.jess.arms.integration.cache.CacheType
-
 /**
  * 用于缓存框架中所必需的组件
  * Created by Nate on 2020/5/2
@@ -14,7 +12,7 @@ interface SSCache<K, V> {
      * @param type 框架中需要缓存的模块类型
      * @return [SSCache]
      */
-    fun build(type: CacheType): SSCache<K, V>
+    fun build(type: SSCacheType): SSCache<K, V>
   }
 
   /**

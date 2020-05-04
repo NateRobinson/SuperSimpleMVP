@@ -2,7 +2,7 @@ package com.nate.ssmvp.base
 
 import android.app.Application
 import android.content.Context
-import com.jess.arms.base.BaseApplication
+import com.nate.ssmvp.utils.Preconditions
 import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**
@@ -38,6 +38,7 @@ class SSBaseApp : Application(), SSIApp {
   }
 
   override fun getSSAppComponent(): SSAppComponent {
+    Preconditions.checkState(mAppDelegate is SSIApp, "%s must be implements %s", mAppDelegate.javaClass.name, SSIApp::class.java.name)
     return (mAppDelegate as SSIApp).getSSAppComponent()
   }
 }

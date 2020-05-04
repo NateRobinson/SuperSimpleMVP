@@ -4,7 +4,7 @@ import androidx.lifecycle.Lifecycle.Event.ON_DESTROY
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.jess.arms.integration.IRepositoryManager
+import com.nate.ssmvp.data.SSIRepositoryManager
 
 /**
  * Model 基类
@@ -13,9 +13,9 @@ import com.jess.arms.integration.IRepositoryManager
 class SSBaseModel : SSIModel, LifecycleObserver {
 
   //用于管理网络请求层, 以及数据缓存层
-  private var mRepositoryManager: IRepositoryManager? = null
+  private var mRepositoryManager: SSIRepositoryManager? = null
 
-  constructor(repositoryManager: IRepositoryManager?) {
+  constructor(repositoryManager: SSIRepositoryManager?) {
     mRepositoryManager = repositoryManager
   }
 

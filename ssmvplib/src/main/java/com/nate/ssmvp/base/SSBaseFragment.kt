@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.jess.arms.integration.lifecycle.FragmentLifecycleable
+import com.nate.ssmvp.lifecycle.rxlifecycle.SSFragmentLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
 import com.trello.rxlifecycle3.android.FragmentEvent
@@ -18,7 +18,7 @@ import javax.inject.Inject
  * super simple mvp Fragment 基类
  * Created by Nate on 2020/5/3
  */
-abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, FragmentLifecycleable {
+abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, SSFragmentLifecycleAble {
   private val mLifecycleSubject = BehaviorSubject.create<FragmentEvent>()
   private lateinit var mContext: Context
 

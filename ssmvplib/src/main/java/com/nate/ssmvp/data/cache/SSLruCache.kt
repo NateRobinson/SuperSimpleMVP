@@ -1,5 +1,6 @@
 package com.nate.ssmvp.data.cache
 
+import timber.log.Timber
 import java.util.LinkedHashMap
 import kotlin.collections.Map.Entry
 import kotlin.math.roundToInt
@@ -40,6 +41,7 @@ class SSLruCache<K, V> : SSCache<K, V> {
    * @return 单个 item 的 `size`
    */
   private fun getItemSize(item: V): Int {
+    Timber.i("item=$item")
     return 1
   }
 
@@ -50,6 +52,7 @@ class SSLruCache<K, V> : SSCache<K, V> {
    * @param value 被驱逐条目的 `value`
    */
   private fun onItemEvicted(key: K, value: V) {
+    Timber.i("Key=>$key   value=>$value")
     // optional override
   }
 

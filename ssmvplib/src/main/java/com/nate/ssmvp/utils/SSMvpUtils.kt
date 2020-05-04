@@ -1,7 +1,6 @@
 package com.nate.ssmvp.utils
 
 import android.content.Context
-import com.jess.arms.utils.Preconditions
 import com.nate.ssmvp.base.SSIApp
 import com.nate.ssmvp.dagger.component.SSAppComponent
 

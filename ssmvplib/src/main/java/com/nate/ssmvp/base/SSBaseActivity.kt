@@ -3,7 +3,7 @@ package com.nate.ssmvp.base
 import android.os.Bundle
 import android.view.InflateException
 import androidx.appcompat.app.AppCompatActivity
-import com.jess.arms.integration.lifecycle.ActivityLifecycleable
+import com.nate.ssmvp.lifecycle.rxlifecycle.SSActivityLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
 import com.trello.rxlifecycle3.android.ActivityEvent
@@ -15,7 +15,7 @@ import javax.inject.Inject
  * super simple mvp Activity 基类
  * Created by Nate on 2020/5/3
  */
-abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivity, ActivityLifecycleable {
+abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivity, SSActivityLifecycleAble {
   private val mLifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
   @Inject

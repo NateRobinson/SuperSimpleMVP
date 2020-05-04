@@ -1,10 +1,9 @@
 package com.nate.ssmvp.data
 
-import com.jess.arms.integration.RetrofitServiceProxyHandler
-import com.jess.arms.integration.cache.CacheType
 import com.nate.ssmvp.data.SSIRepositoryManager.ICustomObtainService
 import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
+import com.nate.ssmvp.data.cache.SSCacheType
 import dagger.Lazy
 import io.rx_cache2.internal.RxCache
 import retrofit2.Retrofit
@@ -44,7 +43,7 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
    */
   override fun <T> obtainRetrofitService(serviceClass: Class<T>): T {
     if (mRetrofitServiceCache == null) {
-      mRetrofitServiceCache = mCacheFactory.build(CacheType.RETROFIT_SERVICE_CACHE)
+      mRetrofitServiceCache = mCacheFactory.build(SSCacheType.RETROFIT_SERVICE_CACHE)
     }
     var retrofitService: T? = null
     if (serviceClass.isInstance(mRetrofitServiceCache?.get(serviceClass.canonicalName ?: ""))) {
@@ -73,7 +72,7 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
    */
   override fun <T> obtainCacheService(cacheClass: Class<T>): T {
     if (mCacheServiceCache == null) {
-      mCacheServiceCache = mCacheFactory.build(CacheType.CACHE_SERVICE_CACHE)
+      mCacheServiceCache = mCacheFactory.build(SSCacheType.CACHE_SERVICE_CACHE)
     }
     var cacheService: T? = null
     if (cacheClass.isInstance(mRetrofitServiceCache?.get(cacheClass.canonicalName ?: ""))) {

@@ -1,7 +1,7 @@
 package com.nate.ssmvp.imageloader
 
 import android.content.Context
-import com.jess.arms.utils.Preconditions
+import com.nate.ssmvp.utils.Preconditions
 import javax.inject.Inject
 import javax.inject.Singleton
 

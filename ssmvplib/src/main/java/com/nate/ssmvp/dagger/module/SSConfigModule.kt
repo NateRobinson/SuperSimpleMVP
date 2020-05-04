@@ -1,10 +1,6 @@
 package com.nate.ssmvp.dagger.module
 
 import android.app.Application
-import com.jess.arms.http.BaseUrl
-import com.jess.arms.http.GlobalHttpHandler
-import com.jess.arms.integration.cache.CacheType
-import com.jess.arms.utils.DataHelper
 import com.nate.ssmvp.config.SSConfig.DEFAULT_BASE_URL
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.GsonConfiguration
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.OkHttpConfiguration
@@ -13,14 +9,18 @@ import com.nate.ssmvp.dagger.module.SSThirdLibModule.RxCacheConfiguration
 import com.nate.ssmvp.data.SSIRepositoryManager.ICustomObtainService
 import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
+import com.nate.ssmvp.data.cache.SSCacheType
 import com.nate.ssmvp.data.cache.SSLruCache
 import com.nate.ssmvp.data.cache.SmartCache
+import com.nate.ssmvp.http.SSOkHttpHandler
 import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
 import com.nate.ssmvp.imageloader.glide.GlideImageLoaderStrategy
+import com.nate.ssmvp.utils.SSFileUtils
 import dagger.Module
 import dagger.Provides
 import me.jessyan.rxerrorhandler.handler.listener.ResponseErrorListener
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.internal.threadFactory
 import java.io.File
@@ -45,9 +45,9 @@ class SSConfigModule {
     }
   }
 
-  private var mBaseUrl: BaseUrl? = null
+  private var mApiUrl: HttpUrl? = null
   private var mLoaderStrategy: SSIImageLoaderStrategy<*>? = null
-  private var mHandler: GlobalHttpHandler? = null
+  private var mHandler: SSOkHttpHandler? = null
   private var mInterceptors: ArrayList<Interceptor>? = null
   private var mErrorListener: ResponseErrorListener? = null
   private var mCacheFile: File? = null
@@ -60,7 +60,7 @@ class SSConfigModule {
   private var mCustomObtainService: ICustomObtainService? = null
 
   private constructor(builder: Builder) {
-    mBaseUrl = builder.baseUrl
+    mApiUrl = builder.apiUrl
     mLoaderStrategy = builder.loaderStrategy
     mHandler = builder.handler
     mInterceptors = builder.interceptors
@@ -89,10 +89,7 @@ class SSConfigModule {
   @Singleton
   @Provides
   fun provideBaseUrl(): HttpUrl {
-    if (mBaseUrl != null) {
-      return mBaseUrl!!.url()
-    }
-    return DEFAULT_BASE_URL
+    return if (mApiUrl == null) DEFAULT_BASE_URL else mApiUrl!!
   }
 
   /**
@@ -113,8 +110,8 @@ class SSConfigModule {
    */
   @Singleton
   @Provides
-  fun provideGlobalHttpHandler(): GlobalHttpHandler {
-    return if (mHandler == null) GlobalHttpHandler.EMPTY else mHandler!!
+  fun provideGlobalHttpHandler(): SSOkHttpHandler {
+    return if (mHandler == null) SSOkHttpHandler.EMPTY else mHandler!!
   }
 
   /**
@@ -123,7 +120,7 @@ class SSConfigModule {
   @Singleton
   @Provides
   fun provideCacheFile(application: Application): File {
-    return if (mCacheFile == null) DataHelper.getCacheFile(application) else mCacheFile!!
+    return if (mCacheFile == null) SSFileUtils.getCacheFile(application) else mCacheFile!!
   }
 
   /**
@@ -165,9 +162,9 @@ class SSConfigModule {
   @Provides
   fun provideCacheFactory(application: Application): SSCacheFactory<String, in Any> {
     return if (mCacheFactory == null) object : SSCacheFactory<String, Any> {
-      override fun build(type: CacheType): SSCache<String, Any> {
+      override fun build(type: SSCacheType): SSCache<String, Any> {
         return when (type.cacheTypeId) {
-          CacheType.EXTRAS_TYPE_ID, CacheType.ACTIVITY_CACHE_TYPE_ID, CacheType.FRAGMENT_CACHE_TYPE_ID -> SmartCache(
+          SSCacheType.EXTRAS_TYPE_ID, SSCacheType.ACTIVITY_CACHE_TYPE_ID, SSCacheType.FRAGMENT_CACHE_TYPE_ID -> SmartCache(
               type.calculateCacheSize(application)
           )
           else -> SSLruCache(type.calculateCacheSize(application))
@@ -197,9 +194,9 @@ class SSConfigModule {
   }
 
   class Builder internal constructor() {
-    var baseUrl: BaseUrl? = null
+    var apiUrl: HttpUrl? = null
     var loaderStrategy: SSIImageLoaderStrategy<*>? = null
-    var handler: GlobalHttpHandler? = null
+    var handler: SSOkHttpHandler? = null
     var interceptors: ArrayList<Interceptor>? = null
     var responseErrorListener: ResponseErrorListener? = null
     var cacheFile: File? = null
@@ -211,8 +208,8 @@ class SSConfigModule {
     var executorService: ExecutorService? = null
     var customObtainService: ICustomObtainService? = null
 
-    fun baseUrl(baseUrl: BaseUrl): Builder {
-      this.baseUrl = baseUrl
+    fun baseUrl(baseUrl: String): Builder {
+      apiUrl = baseUrl.toHttpUrlOrNull()
       return this
     }
 
@@ -223,7 +220,7 @@ class SSConfigModule {
     }
 
     //用来处理http响应结果
-    fun globalHttpHandler(handler: GlobalHttpHandler): Builder {
+    fun globalHttpHandler(handler: SSOkHttpHandler): Builder {
       this.handler = handler
       return this
     }

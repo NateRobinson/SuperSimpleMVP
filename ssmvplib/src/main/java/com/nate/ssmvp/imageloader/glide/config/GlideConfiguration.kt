@@ -5,14 +5,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper
 import com.bumptech.glide.load.engine.cache.LruResourceCache
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator.Builder
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
-import com.jess.arms.http.OkHttpUrlLoader.Factory
-import com.jess.arms.utils.DataHelper
+import com.nate.ssmvp.utils.SSFileUtils
 import com.nate.ssmvp.utils.SSMvpUtils
 import java.io.File
 import java.io.InputStream
@@ -28,9 +28,7 @@ class GlideConfiguration : AppGlideModule() {
     val appComponent = SSMvpUtils.obtainAppComponentFromContext(context)
 
     builder.setDiskCache {
-      DiskLruCacheWrapper.create(
-          DataHelper.makeDirs(File(appComponent.cacheFile(), "Glide")), IMAGE_DISK_CACHE_MAX_SIZE.toLong()
-      )
+      DiskLruCacheWrapper.create(SSFileUtils.makeDirs(File(appComponent.cacheFile(), "Glide")), IMAGE_DISK_CACHE_MAX_SIZE.toLong())
     }
 
     val calculator = Builder(context).build()
@@ -53,9 +51,7 @@ class GlideConfiguration : AppGlideModule() {
   override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
     // 使用 OkHttp 做网络图片请求
     val appComponent = SSMvpUtils.obtainAppComponentFromContext(context)
-    registry.replace(
-        GlideUrl::class.java, InputStream::class.java, Factory(appComponent.okHttpClient())
-    )
+    registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(appComponent.okHttpClient()))
 
     //开发者通过让 ImageLoadStrategy 实现 GlideAppliesOptions 可以做一些 Glide 自定义的配置
     val loadImgStrategy = appComponent.imageLoader().loadImgStrategy

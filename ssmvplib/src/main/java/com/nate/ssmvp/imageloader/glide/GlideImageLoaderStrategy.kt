@@ -8,7 +8,7 @@ import com.bumptech.glide.Registry
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.jess.arms.utils.Preconditions
+import com.nate.ssmvp.utils.Preconditions
 import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.ALL
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.AUTOMATIC

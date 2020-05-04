@@ -2,13 +2,13 @@ package com.nate.ssmvp.dagger.module
 
 import android.app.Application.ActivityLifecycleCallbacks
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import com.jess.arms.integration.cache.CacheType
-import com.jess.arms.integration.lifecycle.ActivityLifecycleForRxLifecycle
 import com.nate.ssmvp.data.SSIRepositoryManager
 import com.nate.ssmvp.data.SSRepositoryManager
 import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
+import com.nate.ssmvp.data.cache.SSCacheType
 import com.nate.ssmvp.lifecycle.SSActivityLifecycle
+import com.nate.ssmvp.lifecycle.rxlifecycle.SSALifecycleForRxLifecycle
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,7 +30,7 @@ abstract class SSAppModule {
     @Singleton
     @Provides
     fun provideExtras(cacheFactory: SSCacheFactory<String, in Any>): SSCache<String, in Any> {
-      return cacheFactory.build(CacheType.EXTRAS)
+      return cacheFactory.build(SSCacheType.EXTRAS)
     }
 
     @JvmStatic
@@ -51,6 +51,6 @@ abstract class SSAppModule {
 
   @Binds
   @Named("ActivityLifecycleForRxLifecycle")
-  abstract fun bindActivityLifecycleForRxLifecycle(activityLifecycleForRxLifecycle: ActivityLifecycleForRxLifecycle): ActivityLifecycleCallbacks
+  abstract fun bindActivityLifecycleForRxLifecycle(activityLifecycleForRxLifecycle: SSALifecycleForRxLifecycle): ActivityLifecycleCallbacks
 
 }

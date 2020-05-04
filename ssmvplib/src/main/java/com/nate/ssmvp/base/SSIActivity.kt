@@ -1,7 +1,6 @@
 package com.nate.ssmvp.base
 
 import android.os.Bundle
-import com.jess.arms.di.component.AppComponent
 import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**

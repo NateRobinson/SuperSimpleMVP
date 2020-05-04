@@ -5,7 +5,7 @@ import androidx.annotation.IntRange
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
-import com.jess.arms.utils.FastBlur
+import com.nate.ssmvp.utils.FastBlurUtils
 import java.security.MessageDigest
 
 /**
@@ -20,7 +20,7 @@ class GlideBlurTransformation(
   }
 
   override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-    return FastBlur.doBlur(toTransform, radius, true)
+    return FastBlurUtils.doBlur(toTransform, radius, true)
   }
 
   override fun equals(other: Any?): Boolean {

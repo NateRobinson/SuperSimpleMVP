@@ -1,13 +1,14 @@
 package com.nate.ssmvp.lifecycle
 
 import android.app.Activity
+import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import com.jess.arms.base.BaseFragment
-import com.jess.arms.base.delegate.FragmentDelegate
-import com.jess.arms.base.delegate.IActivity
+import com.nate.ssmvp.config.SSMVPConfig
+import com.nate.ssmvp.data.cache.SSCache
+import com.nate.ssmvp.data.cache.SmartCache
 import dagger.Lazy
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,6 +19,12 @@ import javax.inject.Singleton
  */
 @Singleton
 class SSActivityLifecycle @Inject constructor() : ActivityLifecycleCallbacks {
+
+  @Inject
+  lateinit var mApplication: Application
+
+  @Inject
+  lateinit var mExtras: SSCache<String, in Any>
 
   @Inject
   lateinit var mFragmentLifecycles: Lazy<List<FragmentLifecycleCallbacks>>
@@ -53,9 +60,20 @@ class SSActivityLifecycle @Inject constructor() : ActivityLifecycleCallbacks {
    */
   private fun registerFragmentCallbacks(activity: Activity) {
     if (activity is FragmentActivity) {
+      if (mExtras.containsKey(SmartCache.getKeyOfKeep(SSMVPConfig::class.java.name))) {
+        val modules = mExtras[SmartCache.getKeyOfKeep(SSMVPConfig::class.java.name)] as List<*>
+        for (module in modules) {
+          if (module is SSMVPConfig) {
+            module.injectFragmentLifecycle(mApplication, mFragmentLifecycles.get())
+          }
+        }
+        mExtras.remove(SmartCache.getKeyOfKeep(SSMVPConfig::class.java.name))
+      }
       // 注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
       for (fragmentLifecycle in mFragmentLifecycles.get()) {
-        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycle, true)
+        activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
+            fragmentLifecycle, true
+        )
       }
     }
   }
