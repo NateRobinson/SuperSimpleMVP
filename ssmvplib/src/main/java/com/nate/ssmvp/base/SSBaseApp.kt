@@ -1,18 +1,43 @@
 package com.nate.ssmvp.base
 
 import android.app.Application
-import com.jess.arms.di.component.AppComponent
+import android.content.Context
+import com.jess.arms.base.BaseApplication
+import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**
+ * 框架默认提供的 Application 基类
  * Created by Nate on 2020/5/3
  */
 class SSBaseApp : Application(), SSIApp {
 
   private lateinit var mAppDelegate: SSAppLifecycle
 
+  /**
+   * 这里会在 [BaseApplication.onCreate] 之前被调用,可以做一些较早的初始化
+   * 常用于 MultiDex 以及插件化框架的初始化
+   * @param base
+   */
+  override fun attachBaseContext(base: Context) {
+    super.attachBaseContext(base)
+    mAppDelegate = SSAppDelegate(base)
+    mAppDelegate.attachBaseContext(base)
+  }
 
+  override fun onCreate() {
+    super.onCreate()
+    mAppDelegate.onCreate(this)
+  }
 
-  override fun getAppComponent(): AppComponent {
-    return (mAppDelegate as SSIApp).getAppComponent()
+  /**
+   * 此方法只会在模拟环境中被调用
+   */
+  override fun onTerminate() {
+    super.onTerminate()
+    mAppDelegate.onTerminate(this)
+  }
+
+  override fun getSSAppComponent(): SSAppComponent {
+    return (mAppDelegate as SSIApp).getSSAppComponent()
   }
 }

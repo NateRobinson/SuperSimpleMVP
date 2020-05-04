@@ -18,10 +18,9 @@ import javax.inject.Inject
  * super simple mvp Fragment 基类
  * Created by Nate on 2020/5/3
  */
-open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment,
-  FragmentLifecycleable {
+open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, FragmentLifecycleable {
   private val mLifecycleSubject = BehaviorSubject.create<FragmentEvent>()
-  private var mContext: Context? = null
+  private lateinit var mContext: Context
 
   @Inject
   lateinit var mPresenter: P
@@ -40,8 +39,7 @@ open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment,
     setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mContext))
   }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?): View? {
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
     return initView(inflater, container, savedInstanceState)
   }
 
@@ -54,10 +52,4 @@ open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment,
     super.onDestroy()
     mPresenter.onDestroy()
   }
-
-  override fun onDetach() {
-    super.onDetach()
-    mContext = null
-  }
-
 }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.jess.arms.di.component.AppComponent
 
 /**
- * 此接口用来约定 Activity 需要必须实现的一些接口
+ * 此接口用来约定 Activity 必须实现的一些接口
  * Created by Nate on 2020/5/3
  */
 interface SSIActivity {

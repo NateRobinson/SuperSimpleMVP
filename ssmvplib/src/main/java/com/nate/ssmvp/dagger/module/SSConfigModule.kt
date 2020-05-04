@@ -3,10 +3,9 @@ package com.nate.ssmvp.dagger.module
 import android.app.Application
 import com.jess.arms.http.BaseUrl
 import com.jess.arms.http.GlobalHttpHandler
-import com.jess.arms.http.imageloader.BaseImageLoaderStrategy
-import com.jess.arms.http.imageloader.glide.GlideImageLoaderStrategy
 import com.jess.arms.integration.cache.CacheType
 import com.jess.arms.utils.DataHelper
+import com.nate.ssmvp.config.SSConfig.DEFAULT_BASE_URL
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.GsonConfiguration
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.OkHttpConfiguration
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.RetrofitConfiguration
@@ -15,12 +14,12 @@ import com.nate.ssmvp.data.SSIRepositoryManager.ICustomObtainService
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
 import com.nate.ssmvp.data.cache.SSLruCache
 import com.nate.ssmvp.data.cache.SmartCache
+import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
+import com.nate.ssmvp.imageloader.glide.GlideImageLoaderStrategy
 import dagger.Module
 import dagger.Provides
 import me.jessyan.rxerrorhandler.handler.listener.ResponseErrorListener
 import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.internal.threadFactory
 import java.io.File
@@ -45,9 +44,8 @@ class SSConfigModule {
     }
   }
 
-  private var mApiUrl: HttpUrl? = null
   private var mBaseUrl: BaseUrl? = null
-  private var mLoaderStrategy: BaseImageLoaderStrategy<*>? = null
+  private var mLoaderStrategy: SSIImageLoaderStrategy<*>? = null
   private var mHandler: GlobalHttpHandler? = null
   private var mInterceptors: ArrayList<Interceptor>? = null
   private var mErrorListener: ResponseErrorListener? = null
@@ -61,7 +59,6 @@ class SSConfigModule {
   private var mCustomObtainService: ICustomObtainService? = null
 
   private constructor(builder: Builder) {
-    mApiUrl = builder.apiUrl
     mBaseUrl = builder.baseUrl
     mLoaderStrategy = builder.loaderStrategy
     mHandler = builder.handler
@@ -84,7 +81,7 @@ class SSConfigModule {
   }
 
   /**
-   * 提供 BaseUrl,默认使用 <"https://api.github.com/">
+   * 提供 BaseUrl
    *
    * @return
    */
@@ -94,7 +91,7 @@ class SSConfigModule {
     if (mBaseUrl != null) {
       return mBaseUrl!!.url()
     }
-    return if (mApiUrl == null) "https://api.github.com/".toHttpUrl() else mApiUrl!!
+    return DEFAULT_BASE_URL
   }
 
   /**
@@ -104,7 +101,7 @@ class SSConfigModule {
    */
   @Singleton
   @Provides
-  fun provideImageLoaderStrategy(): BaseImageLoaderStrategy<*>? {
+  fun provideImageLoaderStrategy(): SSIImageLoaderStrategy<*>? {
     return if (mLoaderStrategy == null) GlideImageLoaderStrategy() else mLoaderStrategy
   }
 
@@ -197,9 +194,8 @@ class SSConfigModule {
   }
 
   class Builder internal constructor() {
-    var apiUrl: HttpUrl? = null
     var baseUrl: BaseUrl? = null
-    var loaderStrategy: BaseImageLoaderStrategy<*>? = null
+    var loaderStrategy: SSIImageLoaderStrategy<*>? = null
     var handler: GlobalHttpHandler? = null
     var interceptors: ArrayList<Interceptor>? = null
     var responseErrorListener: ResponseErrorListener? = null
@@ -212,18 +208,13 @@ class SSConfigModule {
     var executorService: ExecutorService? = null
     var customObtainService: ICustomObtainService? = null
 
-    fun baseUrl(baseUrl: String): Builder {
-      apiUrl = baseUrl.toHttpUrlOrNull()
-      return this
-    }
-
     fun baseUrl(baseUrl: BaseUrl): Builder {
       this.baseUrl = baseUrl
       return this
     }
 
     //用来请求网络图片
-    fun imageLoaderStrategy(loaderStrategy: BaseImageLoaderStrategy<*>): Builder {
+    fun imageLoaderStrategy(loaderStrategy: SSIImageLoaderStrategy<*>): Builder {
       this.loaderStrategy = loaderStrategy
       return this
     }

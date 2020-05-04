@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.jess.arms.di.component.AppComponent
 
 /**
+ * 此接口用来约定 Fragment 必须实现的一些接口
  * Created by Nate on 2020/5/3
  */
 interface SSIFragment {

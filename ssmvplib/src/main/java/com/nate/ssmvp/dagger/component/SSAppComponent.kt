@@ -5,14 +5,16 @@ import com.google.gson.Gson
 import com.jess.arms.http.imageloader.BaseImageLoaderStrategy
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.integration.ConfigModule
-import com.jess.arms.integration.IRepositoryManager
 import com.nate.ssmvp.base.SSAppDelegate
+import com.nate.ssmvp.config.SSMVPConfig
 import com.nate.ssmvp.dagger.module.SSAppModule
 import com.nate.ssmvp.dagger.module.SSConfigModule
 import com.nate.ssmvp.dagger.module.SSThirdLibModule
 import com.nate.ssmvp.data.SSIRepositoryManager
 import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
+import com.nate.ssmvp.imageloader.SSImageLoader
+import com.nate.ssmvp.utils.SSMvpUtils
 import dagger.BindsInstance
 import dagger.Component
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -22,7 +24,7 @@ import java.util.concurrent.ExecutorService
 import javax.inject.Singleton
 
 /**
- * 可通过 [ArmsUtils] [obtainAppComponentFromContext] 拿到此接口的实现类
+ * 可通过 [SSMvpUtils.obtainAppComponentFromContext] 拿到此接口的实现类
  * 拥有此接口的实现类即可调用对应的方法拿到 Dagger 提供的对应实例
  * Created by Nate on 2020/5/3
  */
@@ -32,9 +34,8 @@ interface SSAppComponent {
   fun application(): Application
 
   /**
-   * 用于管理网络请求层, 以及数据缓存层
-   *
-   * @return [IRepositoryManager]
+   * 数据层，目前提供了 Retrofit 和 RxCache 的实例获取
+   * @return [SSIRepositoryManager]
    */
   fun repositoryManager(): SSIRepositoryManager
 
@@ -47,13 +48,10 @@ interface SSAppComponent {
 
   /**
    * 图片加载管理器, 用于加载图片的管理类, 使用策略者模式, 可在运行时动态替换任何图片加载框架
-   * arms-imageloader-glide 提供 Glide 的策略实现类, 也可以自行实现
-   * 需要在 [ConfigModule.applyOptions] 中
-   * 手动注册 [BaseImageLoaderStrategy], [ImageLoader] 才能正常使用
-   *
-   * @return
+   * 需要在 [SSMVPConfig.applyOptions] 中手动注册 [BaseImageLoaderStrategy], [ImageLoader] 才能正常使用
+   * @return [ImageLoader]
    */
-  fun imageLoader(): ImageLoader
+  fun imageLoader(): SSImageLoader
 
   /**
    * 网络请求框架
