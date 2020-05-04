@@ -12,7 +12,7 @@ ext {
 	version = [
 		androidXVersion: "1.0.0",
 		retrofitSdkVersion: "2.6.0",
-		dagger2SdkVersion: "2.23.2",
+		dagger2SdkVersion: "2.27",
 		glideSdkVersion: "4.10.0",
 		butterknifeSdkVersion: "10.1.0",
 		retrofit: "2.5.0",
