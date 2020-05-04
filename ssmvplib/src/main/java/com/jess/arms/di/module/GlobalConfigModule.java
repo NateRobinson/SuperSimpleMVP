@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.jess.arms.http.BaseUrl;
 import com.jess.arms.http.GlobalHttpHandler;
 import com.jess.arms.http.imageloader.BaseImageLoaderStrategy;
+import com.jess.arms.http.imageloader.ImageConfig;
 import com.jess.arms.http.log.DefaultFormatPrinter;
 import com.jess.arms.http.log.FormatPrinter;
 import com.jess.arms.http.log.RequestInterceptor;
@@ -68,7 +69,7 @@ import okhttp3.internal.Util;
 public class GlobalConfigModule {
 	private HttpUrl mApiUrl;
 	private BaseUrl mBaseUrl;
-	private BaseImageLoaderStrategy mLoaderStrategy;
+	private BaseImageLoaderStrategy<?> mLoaderStrategy;
 	private GlobalHttpHandler mHandler;
 	private List<Interceptor> mInterceptors;
 	private ResponseErrorListener mErrorListener;
@@ -138,7 +139,7 @@ public class GlobalConfigModule {
 	@Singleton
 	@Provides
 	@Nullable
-	BaseImageLoaderStrategy provideImageLoaderStrategy() {
+	BaseImageLoaderStrategy<?> provideImageLoaderStrategy() {
 		return mLoaderStrategy;
 	}
 

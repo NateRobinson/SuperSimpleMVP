@@ -77,7 +77,7 @@ public class GlideConfiguration extends AppGlideModule {
         //将配置 Glide 的机会转交给 GlideImageLoaderStrategy,如你觉得框架提供的 GlideImageLoaderStrategy
         //并不能满足自己的需求,想自定义 BaseImageLoaderStrategy,那请你最好实现 GlideAppliesOptions
         //因为只有成为 GlideAppliesOptions 的实现类,这里才能调用 applyGlideOptions(),让你具有配置 Glide 的权利
-        BaseImageLoaderStrategy loadImgStrategy = appComponent.imageLoader().getLoadImgStrategy();
+        BaseImageLoaderStrategy loadImgStrategy = appComponent.imageLoader().loadImgStrategy;
         if (loadImgStrategy instanceof GlideAppliesOptions) {
             ((GlideAppliesOptions) loadImgStrategy).applyGlideOptions(context, builder);
         }
@@ -89,7 +89,7 @@ public class GlideConfiguration extends AppGlideModule {
         AppComponent appComponent = ArmsUtils.obtainAppComponentFromContext(context);
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okHttpClient()));
 
-        BaseImageLoaderStrategy loadImgStrategy = appComponent.imageLoader().getLoadImgStrategy();
+        BaseImageLoaderStrategy loadImgStrategy = appComponent.imageLoader().loadImgStrategy;
         if (loadImgStrategy instanceof GlideAppliesOptions) {
             ((GlideAppliesOptions) loadImgStrategy).registerComponents(context, glide, registry);
         }

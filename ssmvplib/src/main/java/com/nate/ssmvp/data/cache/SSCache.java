@@ -1,48 +1,26 @@
-/*
- * Copyright 2017 JessYan
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.jess.arms.integration.cache;
+package com.nate.ssmvp.data.cache;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.jess.arms.di.module.GlobalConfigModule;
+import com.jess.arms.integration.cache.CacheType;
 import java.util.Set;
 
 /**
- * ================================================
- * 用于缓存框架中所必需的组件,开发者可通过 {@link GlobalConfigModule.Builder#cacheFactory(Factory)} 为框架提供缓存策略
- * 开发者也可以用于自己日常中的使用
- *
- * @see LruCache
- * Created by JessYan on 25/09/2017 16:36
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
- * ================================================
+ * 用于缓存框架中所必需的组件
+ * Created by Nate on 2020/5/2
  */
-public interface Cache<K, V> {
+public interface SSCache<K, V> {
 
-  interface Factory<K, V> {
+  interface SSCacheFactory<K, V> {
 
     /**
      * Returns a new cache
      *
      * @param type 框架中需要缓存的模块类型
-     * @return {@link Cache}
+     * @return {@link SSCache}
      */
     @NonNull
-    Cache<K, V> build(CacheType type);
+    SSCache<K, V> build(CacheType type);
   }
 
   /**
