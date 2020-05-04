@@ -2,7 +2,6 @@ package com.nate.ssmvp.dagger.module
 
 import android.app.Application.ActivityLifecycleCallbacks
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import com.jess.arms.integration.FragmentLifecycle
 import com.jess.arms.integration.cache.CacheType
 import com.jess.arms.integration.lifecycle.ActivityLifecycleForRxLifecycle
 import com.nate.ssmvp.data.SSIRepositoryManager
@@ -53,8 +52,5 @@ abstract class SSAppModule {
   @Binds
   @Named("ActivityLifecycleForRxLifecycle")
   abstract fun bindActivityLifecycleForRxLifecycle(activityLifecycleForRxLifecycle: ActivityLifecycleForRxLifecycle): ActivityLifecycleCallbacks
-
-  @Binds
-  abstract fun bindFragmentLifecycle(fragmentLifecycle: FragmentLifecycle): FragmentLifecycleCallbacks
 
 }

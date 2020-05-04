@@ -12,7 +12,6 @@ import android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE
 import android.content.ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN
 import android.content.Context
 import android.content.res.Configuration
-import com.jess.arms.base.delegate.AppLifecycles
 import com.nate.ssmvp.config.SSMVPConfig
 import com.nate.ssmvp.dagger.component.DaggerSSAppComponent
 import com.nate.ssmvp.dagger.component.SSAppComponent
@@ -67,8 +66,7 @@ class SSAppDelegate : SSIApp, SSAppLifecycle {
 
   override fun onCreate(application: Application) {
     mApplication = application
-    mSSAppComponent = DaggerSSAppComponent.builder()
-        .application(mApplication) //提供application
+    mSSAppComponent = DaggerSSAppComponent.builder().application(mApplication) //提供application
         .ssConfigModule(getSSConfigModule(mApplication, mModules)) //全局配置
         .build()
     mSSAppComponent.inject(this)
@@ -77,8 +75,7 @@ class SSAppDelegate : SSIApp, SSAppLifecycle {
     //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
     //否则存储在 LRU 算法的存储空间中 (大于或等于缓存所能允许的最大 size, 则会根据 LRU 算法清除之前的条目)
     //前提是 extras 使用的是 IntelligentCache (框架默认使用)
-    mSSAppComponent.extras()
-        .put(SmartCache.getKeyOfKeep(SSMVPConfig::class.java.name), mModules)
+    mSSAppComponent.extras().put(SmartCache.getKeyOfKeep(SSMVPConfig::class.java.name), mModules)
 
     //注册框架内部已实现的 Activity 生命周期逻辑
     mApplication.registerActivityLifecycleCallbacks(mActivityLifecycle)
@@ -119,12 +116,8 @@ class SSAppDelegate : SSIApp, SSAppLifecycle {
   }
 
   override fun onTerminate(application: Application) {
-    if (mActivityLifecycle != null) {
-      mApplication.unregisterActivityLifecycleCallbacks(mActivityLifecycle)
-    }
-    if (mActivityLifecycleForRxLifecycle != null) {
-      mApplication.unregisterActivityLifecycleCallbacks(mActivityLifecycleForRxLifecycle)
-    }
+    mApplication.unregisterActivityLifecycleCallbacks(mActivityLifecycle)
+    mApplication.unregisterActivityLifecycleCallbacks(mActivityLifecycleForRxLifecycle)
     if (mComponentCallback != null) {
       mApplication.unregisterComponentCallbacks(mComponentCallback)
     }

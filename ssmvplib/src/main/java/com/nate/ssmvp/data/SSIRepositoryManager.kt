@@ -7,8 +7,8 @@ import retrofit2.Retrofit
  * Created by Nate on 2020/5/2
  */
 interface SSIRepositoryManager {
-  fun <T> obtainRetrofitService(service: Class<T>): T
-  fun <T> obtainCacheService(cache: Class<T>): T
+  fun <T> obtainRetrofitService(serviceClass: Class<T>): T
+  fun <T> obtainCacheService(cacheClass: Class<T>): T
   fun clearAllCache()
 
   interface ICustomObtainService {

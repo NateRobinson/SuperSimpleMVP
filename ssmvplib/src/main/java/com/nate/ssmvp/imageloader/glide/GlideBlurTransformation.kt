@@ -23,8 +23,8 @@ class GlideBlurTransformation(
     return FastBlur.doBlur(toTransform, radius, true)
   }
 
-  override fun equals(o: Any?): Boolean {
-    return o is GlideBlurTransformation
+  override fun equals(other: Any?): Boolean {
+    return other is GlideBlurTransformation
   }
 
   override fun hashCode(): Int {

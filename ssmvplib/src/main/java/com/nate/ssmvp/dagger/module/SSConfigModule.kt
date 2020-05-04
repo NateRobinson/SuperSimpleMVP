@@ -11,6 +11,7 @@ import com.nate.ssmvp.dagger.module.SSThirdLibModule.OkHttpConfiguration
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.RetrofitConfiguration
 import com.nate.ssmvp.dagger.module.SSThirdLibModule.RxCacheConfiguration
 import com.nate.ssmvp.data.SSIRepositoryManager.ICustomObtainService
+import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
 import com.nate.ssmvp.data.cache.SSLruCache
 import com.nate.ssmvp.data.cache.SmartCache
@@ -163,12 +164,14 @@ class SSConfigModule {
   @Singleton
   @Provides
   fun provideCacheFactory(application: Application): SSCacheFactory<String, in Any> {
-    return if (mCacheFactory == null) SSCacheFactory<String, Any> { type ->
-      when (type.cacheTypeId) {
-        CacheType.EXTRAS_TYPE_ID, CacheType.ACTIVITY_CACHE_TYPE_ID, CacheType.FRAGMENT_CACHE_TYPE_ID -> SmartCache(
-            type.calculateCacheSize(application)
-        )
-        else -> SSLruCache(type.calculateCacheSize(application))
+    return if (mCacheFactory == null) object : SSCacheFactory<String, Any> {
+      override fun build(type: CacheType): SSCache<String, Any> {
+        return when (type.cacheTypeId) {
+          CacheType.EXTRAS_TYPE_ID, CacheType.ACTIVITY_CACHE_TYPE_ID, CacheType.FRAGMENT_CACHE_TYPE_ID -> SmartCache(
+              type.calculateCacheSize(application)
+          )
+          else -> SSLruCache(type.calculateCacheSize(application))
+        }
       }
     } else mCacheFactory!!
   }

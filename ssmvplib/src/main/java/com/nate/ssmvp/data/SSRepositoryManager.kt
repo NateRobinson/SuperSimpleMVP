@@ -16,6 +16,7 @@ import javax.inject.Singleton
  * 框架的数据层管理类
  * Created by Nate on 2020/5/2
  */
+@Suppress("UNCHECKED_CAST")
 @Singleton
 class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
 
@@ -46,8 +47,8 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
       mRetrofitServiceCache = mCacheFactory.build(CacheType.RETROFIT_SERVICE_CACHE)
     }
     var retrofitService: T? = null
-    if (serviceClass.isInstance(mRetrofitServiceCache?.get(serviceClass.canonicalName))) {
-      retrofitService = mRetrofitServiceCache?.get(serviceClass.canonicalName) as T?
+    if (serviceClass.isInstance(mRetrofitServiceCache?.get(serviceClass.canonicalName ?: ""))) {
+      retrofitService = mRetrofitServiceCache?.get(serviceClass.canonicalName ?: "") as T?
     }
     if (retrofitService == null) {
       retrofitService = mICustomObtainService?.createRetrofitService(mRetrofit.get(), serviceClass)
@@ -56,12 +57,12 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
             serviceClass.classLoader, arrayOf<Class<*>>(serviceClass), RetrofitServiceProxyHandler(mRetrofit.get(), serviceClass)
         ) as T
       }
-      mRetrofitServiceCache?.put(serviceClass.canonicalName, retrofitService)
+      mRetrofitServiceCache?.put(serviceClass.canonicalName ?: "", retrofitService!!)
     }
     if (retrofitService == null) {
       throw RuntimeException("Can not create retrofitService!")
     }
-    return retrofitService!!
+    return retrofitService
   }
 
   /**
@@ -75,13 +76,12 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
       mCacheServiceCache = mCacheFactory.build(CacheType.CACHE_SERVICE_CACHE)
     }
     var cacheService: T? = null
-    if (cacheClass.isInstance(mRetrofitServiceCache?.get(cacheClass.canonicalName))) {
-      cacheService = mCacheServiceCache?.get(cacheClass.canonicalName) as T?
+    if (cacheClass.isInstance(mRetrofitServiceCache?.get(cacheClass.canonicalName ?: ""))) {
+      cacheService = mCacheServiceCache?.get(cacheClass.canonicalName ?: "") as T?
     }
     if (cacheService == null) {
-      cacheService = mRxCache.get()
-          .using(cacheClass)
-      mCacheServiceCache?.put(cacheClass.canonicalName, cacheService)
+      cacheService = mRxCache.get().using(cacheClass)
+      mCacheServiceCache?.put(cacheClass.canonicalName ?: "", cacheService!!)
     }
     if (cacheService == null) {
       throw RuntimeException("Can not create cacheService!")
@@ -90,8 +90,6 @@ class SSRepositoryManager @Inject constructor() : SSIRepositoryManager {
   }
 
   override fun clearAllCache() {
-    mRxCache.get()
-        .evictAll()
-        .subscribe()
+    mRxCache.get().evictAll().subscribe()
   }
 }

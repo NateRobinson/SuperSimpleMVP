@@ -30,13 +30,12 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Named
 import javax.inject.Singleton
 
+private const val TIME_OUT: Int = 10
+
 /**
  * 提供第三方库的对象实例
  * Created by Nate on 2020/5/3
  */
-
-private const val TIME_OUT: Int = 10
-
 @Module
 abstract class SSThirdLibModule {
 
@@ -49,13 +48,11 @@ abstract class SSThirdLibModule {
     fun provideRetrofit(application: Application, configuration: RetrofitConfiguration?, builder: Builder, client: OkHttpClient, httpUrl: HttpUrl,
       gson: Gson): Retrofit {
 
-      builder.baseUrl(httpUrl)
-          .client(client)
+      builder.baseUrl(httpUrl).client(client)
 
       configuration?.configRetrofit(application, builder)
 
-      builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-          .addConverterFactory(GsonConverterFactory.create(gson))
+      builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create(gson))
 
       return builder.build()
     }
@@ -66,8 +63,7 @@ abstract class SSThirdLibModule {
     fun provideOkHttpClient(application: Application, configuration: OkHttpConfiguration?, builder: OkHttpClient.Builder,
       interceptors: ArrayList<Interceptor>?, handler: GlobalHttpHandler?, executorService: ExecutorService): OkHttpClient {
 
-      builder.connectTimeout(TIME_OUT.toLong(), SECONDS)
-          .readTimeout(TIME_OUT.toLong(), SECONDS)
+      builder.connectTimeout(TIME_OUT.toLong(), SECONDS).readTimeout(TIME_OUT.toLong(), SECONDS)
 
       if (handler != null) {
         builder.addInterceptor(object : Interceptor {
@@ -145,10 +141,7 @@ abstract class SSThirdLibModule {
     @Singleton
     @Provides
     fun proRxErrorHandler(application: Application, listener: ResponseErrorListener): RxErrorHandler {
-      return RxErrorHandler.builder()
-          .with(application)
-          .responseErrorListener(listener)
-          .build()
+      return RxErrorHandler.builder().with(application).responseErrorListener(listener).build()
     }
 
     @JvmStatic

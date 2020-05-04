@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jess.arms.di.component.AppComponent
+import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**
  * 此接口用来约定 Fragment 必须实现的一些接口
@@ -14,9 +14,9 @@ interface SSIFragment {
   /**
    * 配置 Fragment 的依赖
    *
-   * @param appComponent
+   * @param ssAppComponent
    */
-  fun setupFragmentComponent(appComponent: AppComponent)
+  fun setupFragmentComponent(ssAppComponent: SSAppComponent)
 
   /**
    * View 初始化

@@ -14,7 +14,6 @@ import io.reactivex.disposables.Disposable
  */
 class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserver {
 
-  private val TAG = this.javaClass.simpleName
   private var mCompositeDisposable: CompositeDisposable? = null
   private var mModel: M? = null
   private var mRootView: V? = null
@@ -29,10 +28,7 @@ class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserv
    * @param model
    * @param rootView
    */
-  constructor(
-    model: M,
-    rootView: V
-  ) : this() {
+  constructor(model: M, rootView: V) : this() {
     mModel = model
     mRootView = rootView
   }

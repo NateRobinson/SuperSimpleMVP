@@ -2,7 +2,6 @@ package com.nate.ssmvp.imageloader.glide
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -59,7 +58,7 @@ class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, Glide
       glideRequest.transform(RoundedCorners(config.imageRadius))
     }
     if (config.isRoundRadius) {
-      glideRequest.transform(GlideRoundTransform(ctx, config.radius()))
+      glideRequest.transform(GlideRoundTransform(config.radius()))
     }
     if (config.isBlurImage) {
       glideRequest.transform(GlideBlurTransformation(config.blurValue))
@@ -94,7 +93,7 @@ class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, Glide
     }
     if (config.imageViews != null && config.imageViews.isNotEmpty()) { //取消在执行的任务并且释放资源
       for (imageView in config.imageViews) {
-        SSMvpGlide.get(ctx).requestManagerRetriever[ctx].clear(imageView as ImageView)
+        SSMvpGlide.get(ctx).requestManagerRetriever[ctx].clear(imageView)
       }
     }
     if (config.isClearDiskCache) { //清除本地缓存

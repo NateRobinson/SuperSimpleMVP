@@ -2,6 +2,7 @@ package com.nate.ssmvp.base
 
 import android.os.Bundle
 import com.jess.arms.di.component.AppComponent
+import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**
  * 此接口用来约定 Activity 必须实现的一些接口
@@ -12,9 +13,9 @@ interface SSIActivity {
   /**
    * 配置 Activity 的依赖
    *
-   * @param appComponent
+   * @param ssAppComponent
    */
-  fun setupActivityComponent(appComponent: AppComponent)
+  fun setupActivityComponent(ssAppComponent: SSAppComponent)
 
   /**
    * View 初始化

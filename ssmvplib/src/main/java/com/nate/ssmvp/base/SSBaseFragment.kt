@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jess.arms.integration.lifecycle.FragmentLifecycleable
-import com.jess.arms.utils.ArmsUtils
 import com.nate.ssmvp.mvp.SSIPresenter
+import com.nate.ssmvp.utils.SSMvpUtils
 import com.trello.rxlifecycle3.android.FragmentEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -18,7 +18,7 @@ import javax.inject.Inject
  * super simple mvp Fragment 基类
  * Created by Nate on 2020/5/3
  */
-open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, FragmentLifecycleable {
+abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, FragmentLifecycleable {
   private val mLifecycleSubject = BehaviorSubject.create<FragmentEvent>()
   private lateinit var mContext: Context
 
@@ -36,7 +36,7 @@ open abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, 
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setupFragmentComponent(ArmsUtils.obtainAppComponentFromContext(mContext))
+    setupFragmentComponent(SSMvpUtils.obtainAppComponentFromContext(mContext))
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

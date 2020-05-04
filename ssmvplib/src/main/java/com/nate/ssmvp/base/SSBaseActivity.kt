@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.InflateException
 import androidx.appcompat.app.AppCompatActivity
 import com.jess.arms.integration.lifecycle.ActivityLifecycleable
-import com.jess.arms.utils.ArmsUtils
 import com.nate.ssmvp.mvp.SSIPresenter
+import com.nate.ssmvp.utils.SSMvpUtils
 import com.trello.rxlifecycle3.android.ActivityEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -15,8 +15,7 @@ import javax.inject.Inject
  * super simple mvp Activity 基类
  * Created by Nate on 2020/5/3
  */
-open abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivity,
-  ActivityLifecycleable {
+abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivity, ActivityLifecycleable {
   private val mLifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
   @Inject
@@ -37,7 +36,7 @@ open abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIA
       if (e is InflateException) throw e
       e.printStackTrace()
     }
-    setupActivityComponent(ArmsUtils.obtainAppComponentFromContext(this))
+    setupActivityComponent(SSMvpUtils.obtainAppComponentFromContext(this))
     initData(savedInstanceState)
   }
 

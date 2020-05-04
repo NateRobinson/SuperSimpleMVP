@@ -6,7 +6,7 @@ import com.nate.ssmvp.base.SSIApp
 import com.nate.ssmvp.dagger.component.SSAppComponent
 
 /**
- * 提供一些框架类
+ * 提供一些 super simple mvp 框架用的工具方法
  * Created by Nate on 2020/5/4
  */
 object SSMvpUtils {

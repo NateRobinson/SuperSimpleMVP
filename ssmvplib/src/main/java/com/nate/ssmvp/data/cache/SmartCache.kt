@@ -7,11 +7,17 @@ import java.util.HashMap
  * 提供一些配置类的全局依赖实例
  * Created by Nate on 2020/5/3
  */
-class SmartCache<V>(size: Int) : SSCache<String, V> {
-  private val mMap //可将数据永久存储至内存中的存储容器
-      : MutableMap<String, V>
-  private val mCache //当达到最大容量时可根据 LRU 算法抛弃不合规数据的存储容器
-      : SSCache<String, V>
+class SmartCache<V> : SSCache<String, V> {
+  //可将数据永久存储至内存中的存储容器
+  private val mMap: MutableMap<String, V>
+
+  //当达到最大容量时可根据 LRU 算法抛弃不合规数据的存储容器
+  private val mCache: SSLruCache<String, V>
+
+  constructor(size: Int) {
+    mMap = HashMap()
+    mCache = SSLruCache(size)
+  }
 
   /**
    * 将 [.mMap] 和 [.mCache] 的 `size` 相加后返回
@@ -30,7 +36,7 @@ class SmartCache<V>(size: Int) : SSCache<String, V> {
    */
   @Synchronized
   override fun getMaxSize(): Int {
-    return mMap.size + mCache.maxSize
+    return mMap.size + mCache.getMaxSize()
   }
 
   /**
@@ -88,13 +94,12 @@ class SmartCache<V>(size: Int) : SSCache<String, V> {
 
   /**
    * 将 [.mMap] 和 [.mCache] 的 `keySet` 合并返回
-   *
    * @return 合并后的 `keySet`
    */
   @Synchronized
   override fun keySet(): Set<String> {
-    val set = mCache.keySet()
-    set.addAll(mMap.keys)
+    val set = mMap.keys
+    set.addAll(mCache.keySet())
     return set
   }
 
@@ -121,8 +126,4 @@ class SmartCache<V>(size: Int) : SSCache<String, V> {
     }
   }
 
-  init {
-    mMap = HashMap()
-    mCache = SSLruCache(size)
-  }
 }

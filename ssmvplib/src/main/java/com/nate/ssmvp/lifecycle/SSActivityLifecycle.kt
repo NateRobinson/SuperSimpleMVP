@@ -13,13 +13,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
+ * super simple mvp 框架提供的默认 ActivityLifecycleCallbacks 实现
  * Created by Nate on 2020/5/3
  */
 @Singleton
 class SSActivityLifecycle @Inject constructor() : ActivityLifecycleCallbacks {
-
-  @Inject
-  lateinit var mFragmentLifecycle: Lazy<FragmentLifecycleCallbacks>
 
   @Inject
   lateinit var mFragmentLifecycles: Lazy<List<FragmentLifecycleCallbacks>>
@@ -55,10 +53,8 @@ class SSActivityLifecycle @Inject constructor() : ActivityLifecycleCallbacks {
    */
   private fun registerFragmentCallbacks(activity: Activity) {
     if (activity is FragmentActivity) {
-      //注册框架内部已实现的 Fragment 生命周期逻辑
-      activity.supportFragmentManager.registerFragmentLifecycleCallbacks(mFragmentLifecycle!!.get(), true)
-      //注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
-      for (fragmentLifecycle in mFragmentLifecycles!!.get()) {
+      // 注册框架外部, 开发者扩展的 Fragment 生命周期逻辑
+      for (fragmentLifecycle in mFragmentLifecycles.get()) {
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycle, true)
       }
     }
