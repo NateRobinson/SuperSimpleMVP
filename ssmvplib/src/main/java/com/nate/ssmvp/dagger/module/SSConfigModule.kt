@@ -14,6 +14,7 @@ import com.nate.ssmvp.data.cache.SSLruCache
 import com.nate.ssmvp.data.cache.SmartCache
 import com.nate.ssmvp.http.SSOkHttpHandler
 import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
+import com.nate.ssmvp.imageloader.SSImageConfig
 import com.nate.ssmvp.imageloader.glide.GlideImageLoaderStrategy
 import com.nate.ssmvp.utils.SSFileUtils
 import dagger.Module
@@ -99,8 +100,8 @@ class SSConfigModule {
    */
   @Singleton
   @Provides
-  fun provideImageLoaderStrategy(): SSIImageLoaderStrategy<*>? {
-    return if (mLoaderStrategy == null) GlideImageLoaderStrategy() else mLoaderStrategy
+  fun provideImageLoaderStrategy(): SSIImageLoaderStrategy<in SSImageConfig>? {
+    return (if (mLoaderStrategy == null) GlideImageLoaderStrategy() else mLoaderStrategy) as SSIImageLoaderStrategy<in SSImageConfig>?
   }
 
   /**

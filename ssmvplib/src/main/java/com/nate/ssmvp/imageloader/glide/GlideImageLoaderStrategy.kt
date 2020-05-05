@@ -8,16 +8,15 @@ import com.bumptech.glide.Registry
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nate.ssmvp.utils.Preconditions
 import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.ALL
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.AUTOMATIC
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.DATA
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.NONE
 import com.nate.ssmvp.imageloader.SSImageCacheStrategy.RESOURCE
-import com.nate.ssmvp.imageloader.SSImageConfig
 import com.nate.ssmvp.imageloader.glide.config.GlideAppliesOptions
 import com.nate.ssmvp.imageloader.glide.config.SSMvpGlide
+import com.nate.ssmvp.utils.Preconditions
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -28,15 +27,13 @@ import io.reactivex.schedulers.Schedulers
  */
 class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, GlideAppliesOptions {
   @SuppressLint("CheckResult")
-  override fun loadImage(ctx: Context, config: SSImageConfig) {
+  override fun loadImage(ctx: Context, config: GlideImageConfig) {
 
     Preconditions.checkNotNull(config.imageView, "ImageView is required")
 
     //如果context是activity则自动使用Activity的生命周期
     val requests = SSMvpGlide.with(ctx)
     val glideRequest = requests.load(config.url)
-
-    config as GlideImageConfig
 
     when (config.cacheStrategy) {
       ALL -> glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -82,11 +79,9 @@ class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, Glide
     glideRequest.into(config.imageView!!)
   }
 
-  override fun clear(ctx: Context, config: SSImageConfig) {
+  override fun clear(ctx: Context, config: GlideImageConfig) {
     Preconditions.checkNotNull(ctx, "Context is required")
     Preconditions.checkNotNull(config, "ImageConfigImpl is required")
-
-    config as GlideImageConfig
 
     if (config.imageView != null) {
       SSMvpGlide.get(ctx).requestManagerRetriever[ctx].clear(config.imageView!!)

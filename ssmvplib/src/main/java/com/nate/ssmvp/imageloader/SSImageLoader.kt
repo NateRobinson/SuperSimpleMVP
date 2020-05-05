@@ -14,7 +14,7 @@ class SSImageLoader @Inject constructor() {
 
   @JvmField
   @Inject
-  var loadImgStrategy: SSIImageLoaderStrategy<*>? = null
+  var loadImgStrategy: SSIImageLoaderStrategy<in SSImageConfig>? = null
 
   /**
    * 加载图片
