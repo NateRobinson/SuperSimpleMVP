@@ -45,8 +45,9 @@ abstract class SSThirdLibModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideRetrofit(application: Application, configuration: RetrofitConfiguration?, builder: Builder, client: OkHttpClient, httpUrl: HttpUrl,
-      gson: Gson): Retrofit {
+    fun provideRetrofit(
+      application: Application, configuration: RetrofitConfiguration?, builder: Builder, client: OkHttpClient, httpUrl: HttpUrl, gson: Gson
+    ): Retrofit {
 
       builder.baseUrl(httpUrl).client(client)
 
@@ -60,8 +61,14 @@ abstract class SSThirdLibModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideOkHttpClient(application: Application, configuration: OkHttpConfiguration?, builder: OkHttpClient.Builder,
-      interceptors: ArrayList<Interceptor>?, handler: SSOkHttpHandler?, executorService: ExecutorService): OkHttpClient {
+    fun provideOkHttpClient(
+      application: Application,
+      configuration: OkHttpConfiguration?,
+      builder: OkHttpClient.Builder,
+      interceptors: ArrayList<Interceptor>?,
+      handler: SSOkHttpHandler?,
+      executorService: ExecutorService
+    ): OkHttpClient {
 
       builder.connectTimeout(TIME_OUT.toLong(), SECONDS).readTimeout(TIME_OUT.toLong(), SECONDS)
 
@@ -70,6 +77,11 @@ abstract class SSThirdLibModule {
           @Throws(IOException::class)
           override fun intercept(chain: Chain): Response {
             return chain.proceed(handler.onHttpRequestBefore(chain, chain.request()))
+          }
+        })
+        builder.addNetworkInterceptor(object : Interceptor {
+          override fun intercept(chain: Chain): Response {
+            return handler.onHttpResultResponse(chain, chain.proceed(chain.request()))
           }
         })
       }
@@ -104,9 +116,9 @@ abstract class SSThirdLibModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideRxCache(application: Application, configuration: RxCacheConfiguration?,
-      @Named("RxCacheDirectory")
-      cacheDirectory: File, gson: Gson): RxCache? {
+    fun provideRxCache(
+      application: Application, configuration: RxCacheConfiguration?, @Named("RxCacheDirectory") cacheDirectory: File, gson: Gson
+    ): RxCache? {
       val builder = RxCache.Builder()
       var rxCache: RxCache? = null
       if (configuration != null) {

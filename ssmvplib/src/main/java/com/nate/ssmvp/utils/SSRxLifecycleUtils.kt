@@ -47,7 +47,7 @@ object SSRxLifecycleUtils {
   /**
    * 绑定 Activity/Fragment 的生命周期
    */
-  fun <T> bindToLifecycle(view: SSIView): LifecycleTransformer<T> {
+  fun <T> bindToLifecycle(view: SSIView?): LifecycleTransformer<T> {
     return if (view is SSLifecycleAble<*>) {
       bindToLifecycle(view as SSLifecycleAble<*>)
     } else {

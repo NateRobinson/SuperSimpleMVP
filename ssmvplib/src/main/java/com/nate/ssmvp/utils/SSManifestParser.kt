@@ -24,7 +24,7 @@ class SSManifestParser {
     val modules: MutableList<SSMVPConfig> = ArrayList()
     try {
       val appInfo = context!!.packageManager.getApplicationInfo(
-          context?.packageName ?: "", PackageManager.GET_META_DATA
+        context?.packageName ?: "", PackageManager.GET_META_DATA
       )
       if (appInfo.metaData != null) {
         for (key in appInfo.metaData.keySet()) {
@@ -51,11 +51,11 @@ class SSManifestParser {
       clazz.newInstance()
     } catch (e: InstantiationException) {
       throw RuntimeException(
-          "Unable to instantiate ConfigModule implementation for $clazz", e
+        "Unable to instantiate ConfigModule implementation for $clazz", e
       )
     } catch (e: IllegalAccessException) {
       throw RuntimeException(
-          "Unable to instantiate ConfigModule implementation for $clazz", e
+        "Unable to instantiate ConfigModule implementation for $clazz", e
       )
     }
     if (module !is SSMVPConfig) {

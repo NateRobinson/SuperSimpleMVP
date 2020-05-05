@@ -165,7 +165,7 @@ class SSConfigModule {
       override fun build(type: SSCacheType): SSCache<String, Any> {
         return when (type.cacheTypeId) {
           SSCacheType.EXTRAS_TYPE_ID, SSCacheType.ACTIVITY_CACHE_TYPE_ID, SSCacheType.FRAGMENT_CACHE_TYPE_ID -> SmartCache(
-              type.calculateCacheSize(application)
+            type.calculateCacheSize(application)
           )
           else -> SSLruCache(type.calculateCacheSize(application))
         }
@@ -183,7 +183,7 @@ class SSConfigModule {
   @Provides
   fun provideExecutorService(): ExecutorService {
     return if (mExecutorService == null) ThreadPoolExecutor(
-        0, Int.MAX_VALUE, 60, SECONDS, SynchronousQueue(), threadFactory("SSMvp Executor", false)
+      0, Int.MAX_VALUE, 60, SECONDS, SynchronousQueue(), threadFactory("SSMvp Executor", false)
     ) else mExecutorService!!
   }
 
@@ -220,7 +220,7 @@ class SSConfigModule {
     }
 
     //用来处理http响应结果
-    fun globalHttpHandler(handler: SSOkHttpHandler): Builder {
+    fun okHttpHandler(handler: SSOkHttpHandler): Builder {
       this.handler = handler
       return this
     }
@@ -250,8 +250,8 @@ class SSConfigModule {
       return this
     }
 
-    fun okHttpConfiguration(okhttpConfiguration: OkHttpConfiguration): Builder {
-      this.okHttpConfiguration = okhttpConfiguration
+    fun okHttpConfiguration(okHttpConfiguration: OkHttpConfiguration): Builder {
+      this.okHttpConfiguration = okHttpConfiguration
       return this
     }
 

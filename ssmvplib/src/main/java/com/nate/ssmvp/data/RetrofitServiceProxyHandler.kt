@@ -14,18 +14,31 @@ class RetrofitServiceProxyHandler(private val mRetrofit: Retrofit, private val m
   private var mRetrofitService: Any? = null
 
   @Throws(Throwable::class)
-  override fun invoke(proxy: Any, method: Method, args: Array<Any>): Any {
+  override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any {
     if (method.returnType == Observable::class.java) {
       // 如果方法返回值是 Observable 的话，则包一层再返回，
       // 只包一层 defer 由外部去控制耗时方法以及网络请求所处线程，
       // 如此对原项目的影响为 0，且更可控。
-      return Observable.defer { method.invoke(retrofitService, *args) as Observable<*> }
+      return if (args != null) {
+        Observable.defer { method.invoke(retrofitService, *args) as Observable<*> }
+      } else {
+        Observable.defer { method.invoke(retrofitService) as Observable<*> }
+      }
     } else if (method.returnType == Single::class.java) {
       // 如果方法返回值是 Single 的话，则包一层再返回。
-      return Single.defer { method.invoke(retrofitService, *args) as Single<*> }
+      return if (args != null) {
+        Single.defer { method.invoke(retrofitService, *args) as Single<*> }
+      } else {
+        Single.defer { method.invoke(retrofitService) as Single<*> }
+      }
+    } else {
+      // 返回值不是 Observable 或 Single 的话不处理。
+      return if (args != null) {
+        method.invoke(retrofitService, *args)!!
+      } else {
+        method.invoke(retrofitService)!!
+      }
     }
-    // 返回值不是 Observable 或 Single 的话不处理。
-    return method.invoke(retrofitService, *args)!!
   }
 
   private val retrofitService: Any?

@@ -27,7 +27,7 @@ class SSActivityLifecycle @Inject constructor() : ActivityLifecycleCallbacks {
   lateinit var mExtras: SSCache<String, in Any>
 
   @Inject
-  lateinit var mFragmentLifecycles: Lazy<List<FragmentLifecycleCallbacks>>
+  lateinit var mFragmentLifecycles: Lazy<ArrayList<FragmentLifecycleCallbacks>>
 
   override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
     registerFragmentCallbacks(activity)

@@ -40,8 +40,8 @@ class SSAppDelegate : SSIApp, SSAppLifecycle {
   lateinit var mActivityLifecycleForRxLifecycle: ActivityLifecycleCallbacks
 
   private var mModules: List<SSMVPConfig>
-  private var mAppLifecycles: List<SSAppLifecycle> = ArrayList()
-  private var mActivityLifecycles: List<ActivityLifecycleCallbacks> = ArrayList()
+  private var mAppLifecycles: ArrayList<SSAppLifecycle> = ArrayList()
+  private var mActivityLifecycles: ArrayList<ActivityLifecycleCallbacks> = ArrayList()
   private var mComponentCallback: ComponentCallbacks2? = null
 
   constructor(context: Context) {

@@ -1,7 +1,6 @@
 package com.nate.ssmvp.dagger.component
 
 import android.app.Application
-import com.google.gson.Gson
 import com.nate.ssmvp.base.SSAppDelegate
 import com.nate.ssmvp.config.SSMVPConfig
 import com.nate.ssmvp.dagger.module.SSAppModule
@@ -56,13 +55,6 @@ interface SSAppComponent {
    * @return [OkHttpClient]
    */
   fun okHttpClient(): OkHttpClient
-
-  /**
-   * Json 序列化库
-   *
-   * @return [Gson]
-   */
-  fun gson(): Gson
 
   /**
    * 缓存文件根目录 (RxCache 和 Glide 的缓存都已经作为子文件夹放在这个根目录下), 应该将所有缓存都统一放到这个根目录下
