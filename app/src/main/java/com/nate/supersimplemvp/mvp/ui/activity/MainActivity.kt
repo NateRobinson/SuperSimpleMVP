@@ -2,6 +2,7 @@ package com.nate.supersimplemvp.mvp.ui.activity
 
 import android.os.Bundle
 import com.blankj.utilcode.util.GsonUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.nate.ssmvp.base.SSBaseActivity
 import com.nate.ssmvp.dagger.component.SSAppComponent
 import com.nate.ssmvp.imageloader.glide.GlideImageConfig
@@ -22,7 +23,12 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
   private lateinit var binding: ActivityMainBinding
 
   override fun setupActivityComponent(ssAppComponent: SSAppComponent) {
-    DaggerMainComponent.builder().sSAppComponent(ssAppComponent).mainModule(MainModule(this)).build().inject(this)
+    DaggerMainComponent
+      .builder()
+      .sSAppComponent(ssAppComponent)
+      .mainModule(MainModule(this))
+      .build()
+      .inject(this)
   }
 
   override fun initView(savedInstanceState: Bundle?): Int {
@@ -47,24 +53,38 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
   }
 
   override fun showMessage(message: String) {
+    ToastUtils.showShort(message)
   }
 
   override fun getUserSuccess(user: User) {
     binding.userTv.text = GsonUtils.toJson(user)
 
-    ProgressManager.getInstance().addResponseListener(user.avatar_url, object : ProgressListener {
-      override fun onProgress(progressInfo: ProgressInfo) {
-        Timber.d("progressInfo=>${progressInfo.percent}")
-        binding.progressBar.progress = progressInfo.percent
-      }
+    ProgressManager
+      .getInstance()
+      .addResponseListener(user.avatar_url, object : ProgressListener {
+        override fun onProgress(progressInfo: ProgressInfo) {
+          Timber.d("progressInfo=>${progressInfo.percent}")
+          binding.progressBar.progress = progressInfo.percent
+        }
 
-      override fun onError(id: Long, e: Exception) {
-        Timber.d("progressInfo e=>$e")
-      }
+        override fun onError(id: Long, e: Exception) {
+          Timber.d("progressInfo e=>$e")
+        }
 
-    })
+      })
 
-    SSMvpUtils.obtainAppComponentFromContext(this).imageLoader()
-      .loadImage(this, GlideImageConfig.builder().imageView(binding.iv).url(user.avatar_url).isCenterCrop(true).isCircle(true).blurValue(0).build())
+    SSMvpUtils
+      .obtainAppComponentFromContext(this)
+      .imageLoader()
+      .loadImage(
+          this, GlideImageConfig
+        .builder()
+        .imageView(binding.iv)
+        .url(user.avatar_url)
+        .isCenterCrop(true)
+        .isCircle(true)
+        .blurValue(0)
+        .build()
+      )
   }
 }

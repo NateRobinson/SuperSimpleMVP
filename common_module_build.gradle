@@ -3,14 +3,16 @@ if (isBuildModule.toBoolean()) {
 } else {
   apply plugin: 'com.android.library'
 }
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+
 
 android {
   compileSdkVersion rootProject.ext.android["compileSdkVersion"]
   buildToolsVersion rootProject.ext.android["buildToolsVersion"]
   useLibrary 'org.apache.http.legacy'
+
+  dataBinding {
+    enabled = true
+  }
 
   compileOptions {
     targetCompatibility JavaVersion.VERSION_1_8
@@ -73,10 +75,7 @@ android {
 
 dependencies {
   if (isBuildModule.toBoolean()) {
-    //view
-    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
-      exclude module: 'support-annotations'
-    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //tools
     kapt rootProject.ext.dependencies["dagger2-compiler"]
     kapt rootProject.ext.dependencies["arouter-compiler"]
@@ -85,6 +84,7 @@ dependencies {
     releaseImplementation rootProject.ext.dependencies["canary-release"]
     testImplementation rootProject.ext.dependencies["canary-release"]
   } else {
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compileOnly rootProject.ext.dependencies["dagger2-compiler"]
     compileOnly rootProject.ext.dependencies["arouter-compiler"]
     compileOnly rootProject.ext.dependencies["canary-debug"]
