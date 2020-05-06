@@ -46,7 +46,6 @@ class AppMVPConfig : SSMVPConfig {
           RetrofitUrlManager.getInstance().with(builder)
         }
       })
-
   }
 
   override fun injectAppLifecycle(context: Context, lifecycles: ArrayList<SSAppLifecycle>) {
