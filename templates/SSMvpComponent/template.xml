@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<template
+    format="5"
+    revision="99"
+    name="SSMvp Component"
+    description="Creates a Component Module based on SSMvp.">
+
+    <category value="Application" />
+    <formfactor value="Mobile" />
+
+    <thumbs>
+        <thumb>ss_mvp_component_template_banner.png</thumb>
+    </thumbs>
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>

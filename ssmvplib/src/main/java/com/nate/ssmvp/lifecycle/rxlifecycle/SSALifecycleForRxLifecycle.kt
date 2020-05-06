@@ -30,7 +30,7 @@ class SSALifecycleForRxLifecycle @Inject constructor() : ActivityLifecycleCallba
    * 通过桥梁对象 `BehaviorSubject<ActivityEvent> mLifecycleSubject`
    * 在每个 Activity 的生命周期中发出对应的生命周期事件
    */
-  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
+  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
     if (activity is SSActivityLifecycleAble) {
       obtainSubject(activity).onNext(CREATE)
       if (activity is FragmentActivity) {

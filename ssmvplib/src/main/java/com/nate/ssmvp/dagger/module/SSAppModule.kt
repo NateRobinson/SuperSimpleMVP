@@ -36,7 +36,7 @@ abstract class SSAppModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideFragmentLifecycle(): List<FragmentLifecycleCallbacks> {
+    fun provideFragmentLifecycle(): ArrayList<FragmentLifecycleCallbacks> {
       return ArrayList<FragmentLifecycleCallbacks>()
     }
 

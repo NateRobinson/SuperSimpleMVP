@@ -10,17 +10,17 @@ import com.nate.ssmvp.data.SSIRepositoryManager
  * Model 基类
  * Created by Nate on 2020/5/1
  */
-class SSBaseModel : SSIModel, LifecycleObserver {
+open class SSBaseModel : SSIModel, LifecycleObserver {
 
   //用于管理网络请求层, 以及数据缓存层
-  private var mRepositoryManager: SSIRepositoryManager? = null
+  protected var mRepositoryManager: SSIRepositoryManager
 
-  constructor(repositoryManager: SSIRepositoryManager?) {
+  constructor(repositoryManager: SSIRepositoryManager) {
     mRepositoryManager = repositoryManager
   }
 
   override fun onDestroy() {
-    mRepositoryManager = null
+    mRepositoryManager.clearAllCache()
   }
 
   @OnLifecycleEvent(ON_DESTROY)

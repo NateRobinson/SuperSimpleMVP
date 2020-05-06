@@ -12,15 +12,11 @@ import io.reactivex.disposables.Disposable
  * Presenter 基类
  * Created by Nate on 2020/5/1
  */
-class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserver {
+open class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserver {
 
   private var mCompositeDisposable: CompositeDisposable? = null
-  private var mModel: M? = null
-  private var mRootView: V? = null
-
-  constructor() {
-    onStart()
-  }
+  protected var mModel: M
+  protected var mRootView: V?
 
   /**
    * 页面同时需要 Model 和 View 层，调用此构造方法
@@ -28,25 +24,17 @@ class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserv
    * @param model
    * @param rootView
    */
-  constructor(model: M, rootView: V) : this() {
+  constructor(model: M, rootView: V) {
     mModel = model
     mRootView = rootView
-  }
-
-  /**
-   * 页面只需要 View 层，调用此构造方法
-   *
-   * @param rootView
-   */
-  constructor(rootView: V) : this() {
-    mRootView = rootView
+    onStart()
   }
 
   override fun onStart() {
     //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
     if (mRootView != null && mRootView is LifecycleOwner) {
       (mRootView as LifecycleOwner).lifecycle.addObserver(this)
-      if (mModel != null && mModel is LifecycleObserver) {
+      if (mModel is LifecycleObserver) {
         (mRootView as LifecycleOwner).lifecycle.addObserver((mModel as LifecycleObserver))
       }
     }
@@ -55,8 +43,7 @@ class SSBasePresenter<M : SSIModel, V : SSIView> : SSIPresenter, LifecycleObserv
   override fun onDestroy() {
     //解除订阅
     unDispose()
-    mModel?.onDestroy()
-    mModel = null
+    mModel.onDestroy()
     mRootView = null
     mCompositeDisposable = null
   }

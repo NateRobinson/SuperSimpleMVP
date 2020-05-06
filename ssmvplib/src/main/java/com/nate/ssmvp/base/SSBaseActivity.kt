@@ -18,8 +18,9 @@ import javax.inject.Inject
 abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivity, SSActivityLifecycleAble {
   private val mLifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
+  @JvmField
   @Inject
-  lateinit var mPresenter: P
+  var mPresenter: P? = null
 
   override fun provideLifecycleSubject(): Subject<ActivityEvent> {
     return mLifecycleSubject
@@ -43,6 +44,7 @@ abstract class SSBaseActivity<P : SSIPresenter> : AppCompatActivity(), SSIActivi
   override fun onDestroy() {
     super.onDestroy()
     // 释放资源
-    mPresenter.onDestroy()
+    mPresenter?.onDestroy()
+    mPresenter = null
   }
 }

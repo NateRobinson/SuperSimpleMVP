@@ -36,7 +36,7 @@
 
 ################common###############
 
--keep public class * implements com.jess.arms.integration.ConfigModule
+-keep public class * implements com.nate.ssmvp.config.SSMVPConfig
 
  #实体类不参与混淆
 -keep class com.jess.arms.widget.** { *; } #自定义控件不参与混淆

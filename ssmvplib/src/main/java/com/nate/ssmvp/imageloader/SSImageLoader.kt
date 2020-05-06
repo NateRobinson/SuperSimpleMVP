@@ -14,7 +14,7 @@ class SSImageLoader @Inject constructor() {
 
   @JvmField
   @Inject
-  var loadImgStrategy: SSIImageLoaderStrategy<*>? = null
+  var loadImgStrategy: SSIImageLoaderStrategy<in SSImageConfig>? = null
 
   /**
    * 加载图片
@@ -22,11 +22,11 @@ class SSImageLoader @Inject constructor() {
    * @param context
    * @param config
    * @param <T>
-  </T> */
+   */
   fun <T : SSImageConfig> loadImage(context: Context, config: T) {
     Preconditions.checkNotNull(
-        loadImgStrategy,
-        "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
+      loadImgStrategy,
+      "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
     )
     loadImgStrategy?.loadImage(context, config)
   }
@@ -37,11 +37,11 @@ class SSImageLoader @Inject constructor() {
    * @param context
    * @param config
    * @param <T>
-  </T> */
+   */
   fun <T : SSImageConfig> clear(context: Context, config: T) {
     Preconditions.checkNotNull(
-        loadImgStrategy,
-        "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
+      loadImgStrategy,
+      "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
     )
     loadImgStrategy?.clear(context, config)
   }

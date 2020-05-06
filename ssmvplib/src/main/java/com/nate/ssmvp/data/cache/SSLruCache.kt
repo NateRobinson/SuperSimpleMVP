@@ -1,6 +1,5 @@
 package com.nate.ssmvp.data.cache
 
-import timber.log.Timber
 import java.util.LinkedHashMap
 import kotlin.collections.Map.Entry
 import kotlin.math.roundToInt
@@ -31,29 +30,6 @@ class SSLruCache<K, V> : SSCache<K, V> {
     require(multiplier >= 0) { "Multiplier must be >= 0" }
     maxSize = (initialMaxSize * multiplier).roundToInt()
     evict()
-  }
-
-  /**
-   * 返回每个 `item` 所占用的 size,默认为1,这个 size 的单位必须和构造函数所传入的 size 一致
-   * 子类可以重写这个方法以适应不同的单位,比如说 bytes
-   *
-   * @param item 每个 `item` 所占用的 size
-   * @return 单个 item 的 `size`
-   */
-  private fun getItemSize(item: V): Int {
-    Timber.i("item=$item")
-    return 1
-  }
-
-  /**
-   * 当缓存中有被驱逐的条目时,会回调此方法,默认空实现,子类可以重写这个方法
-   *
-   * @param key 被驱逐条目的 `key`
-   * @param value 被驱逐条目的 `value`
-   */
-  private fun onItemEvicted(key: K, value: V) {
-    Timber.i("Key=>$key   value=>$value")
-    // optional override
   }
 
   /**
@@ -122,17 +98,16 @@ class SSLruCache<K, V> : SSCache<K, V> {
    */
   @Synchronized
   override fun put(key: K, value: V): V? {
-    val itemSize = getItemSize(value)
+    val itemSize = 1
     if (itemSize >= maxSize) {
-      onItemEvicted(key, value)
       return null
     }
     val result = cache.put(key, value)
     if (value != null) {
-      currentSize += getItemSize(value)
+      currentSize += 1
     }
     if (result != null) {
-      currentSize -= getItemSize(result)
+      currentSize -= 1
     }
     evict()
     return result
@@ -149,7 +124,7 @@ class SSLruCache<K, V> : SSCache<K, V> {
   override fun remove(key: K): V? {
     val value = cache.remove(key)
     if (value != null) {
-      currentSize -= getItemSize(value)
+      currentSize -= 1
     }
     return value
   }
@@ -171,11 +146,9 @@ class SSLruCache<K, V> : SSCache<K, V> {
     var last: Entry<K, V>
     while (currentSize > size) {
       last = cache.entries.iterator().next()
-      val toRemove = last.value
-      currentSize -= getItemSize(toRemove)
+      currentSize -= 1
       val key = last.key
       cache.remove(key)
-      onItemEvicted(key, toRemove)
     }
   }
 

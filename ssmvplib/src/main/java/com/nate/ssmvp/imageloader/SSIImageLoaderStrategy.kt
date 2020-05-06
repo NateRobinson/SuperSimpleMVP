@@ -13,7 +13,7 @@ interface SSIImageLoaderStrategy<T : SSImageConfig> {
    * @param ctx [Context]
    * @param config 图片加载配置信息
    */
-  fun loadImage(ctx: Context, config: SSImageConfig)
+  fun loadImage(ctx: Context, config: T)
 
   /**
    * 清除
@@ -21,5 +21,5 @@ interface SSIImageLoaderStrategy<T : SSImageConfig> {
    * @param ctx [Context]
    * @param config 图片加载配置信息
    */
-  fun clear(ctx: Context, config: SSImageConfig)
+  fun clear(ctx: Context, config: T)
 }

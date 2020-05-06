@@ -8,8 +8,6 @@ A super simple way to create a mvp project.
 3. 总结配合 ssmvplib 使用的 ssmvp page 模板
 4. 如果写 readme 才能详细的介绍整个框架，和如何使用？？？
 
-[https://github.com/JessYanCoding/MVPArms/wiki#1.3.1](https://github.com/JessYanCoding/MVPArms/wiki#1.3.1)
-
 ## 整体框架
 
 - MVP
