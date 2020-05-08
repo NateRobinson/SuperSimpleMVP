@@ -1,6 +1,8 @@
 package com.nate.ssmvp.imageloader
 
 import android.content.Context
+import com.nate.ssmvp.imageloader.glide.GlideImageConfig
+import com.nate.ssmvp.imageloader.glide.GlideImageLoaderStrategy
 import com.nate.ssmvp.utils.Preconditions
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,9 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class SSImageLoader @Inject constructor() {
 
-  @JvmField
-  @Inject
-  var loadImgStrategy: SSIImageLoaderStrategy<in SSImageConfig>? = null
+  var loadImgStrategy = GlideImageLoaderStrategy()
 
   /**
    * 加载图片
@@ -23,12 +23,8 @@ class SSImageLoader @Inject constructor() {
    * @param config
    * @param <T>
    */
-  fun <T : SSImageConfig> loadImage(context: Context, config: T) {
-    Preconditions.checkNotNull(
-      loadImgStrategy,
-      "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
-    )
-    loadImgStrategy?.loadImage(context, config)
+  fun loadImage(context: Context, config: GlideImageConfig) {
+    loadImgStrategy.loadImage(context, config)
   }
 
   /**
@@ -38,12 +34,8 @@ class SSImageLoader @Inject constructor() {
    * @param config
    * @param <T>
    */
-  fun <T : SSImageConfig> clear(context: Context, config: T) {
-    Preconditions.checkNotNull(
-      loadImgStrategy,
-      "Please implement BaseImageLoaderStrategy and call GlobalConfigModule.Builder#imageLoaderStrategy(BaseImageLoaderStrategy) in the applyOptions method of ConfigModule"
-    )
-    loadImgStrategy?.clear(context, config)
+  fun clear(context: Context, config: GlideImageConfig) {
+    loadImgStrategy.clear(context, config)
   }
 
 }

@@ -47,7 +47,6 @@ class SSConfigModule {
   }
 
   private var mApiUrl: HttpUrl? = null
-  private var mLoaderStrategy: SSIImageLoaderStrategy<*>? = null
   private var mHandler: SSOkHttpHandler? = null
   private var mInterceptors: ArrayList<Interceptor>? = null
   private var mErrorListener: ResponseErrorListener? = null
@@ -62,7 +61,6 @@ class SSConfigModule {
 
   private constructor(builder: Builder) {
     mApiUrl = builder.apiUrl
-    mLoaderStrategy = builder.loaderStrategy
     mHandler = builder.handler
     mInterceptors = builder.interceptors
     mErrorListener = builder.responseErrorListener
@@ -91,17 +89,6 @@ class SSConfigModule {
   @Provides
   fun provideBaseUrl(): HttpUrl {
     return if (mApiUrl == null) DEFAULT_BASE_URL else mApiUrl!!
-  }
-
-  /**
-   * 提供图片加载框架,默认使用 [GlideImageLoaderStrategy]
-   *
-   * @return
-   */
-  @Singleton
-  @Provides
-  fun provideImageLoaderStrategy(): SSIImageLoaderStrategy<in SSImageConfig>? {
-    return (if (mLoaderStrategy == null) GlideImageLoaderStrategy() else mLoaderStrategy) as SSIImageLoaderStrategy<in SSImageConfig>?
   }
 
   /**
@@ -196,7 +183,6 @@ class SSConfigModule {
 
   class Builder internal constructor() {
     var apiUrl: HttpUrl? = null
-    var loaderStrategy: SSIImageLoaderStrategy<*>? = null
     var handler: SSOkHttpHandler? = null
     var interceptors: ArrayList<Interceptor>? = null
     var responseErrorListener: ResponseErrorListener? = null
@@ -211,12 +197,6 @@ class SSConfigModule {
 
     fun baseUrl(baseUrl: String): Builder {
       apiUrl = baseUrl.toHttpUrlOrNull()
-      return this
-    }
-
-    //用来请求网络图片
-    fun imageLoaderStrategy(loaderStrategy: SSIImageLoaderStrategy<*>): Builder {
-      this.loaderStrategy = loaderStrategy
       return this
     }
 

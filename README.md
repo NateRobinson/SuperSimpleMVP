@@ -3,10 +3,7 @@ A super simple way to create a mvp project.
 
 ## TODO
 
-1. 总结 super mvp lib (ssmvplib) 
-2. 总结配合 ssmvplib 使用的 ssmvp module 模板
-3. 总结配合 ssmvplib 使用的 ssmvp page 模板
-4. 如果写 readme 才能详细的介绍整个框架，和如何使用？？？
+1. 如果写 readme 才能详细的介绍整个框架，和如何使用？？？
 
 ## 整体框架
 
@@ -16,6 +13,7 @@ A super simple way to create a mvp project.
 - FragmentManager.FragmentLifecycleCallbacks
 - Retrofit
 - RxCache
+- RxLifecycle
 - 图片加载采用策略模式 - 默认使用 Glide 框架
 
 ## 整体实现思路

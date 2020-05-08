@@ -5,8 +5,8 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.nate.ssmvp.base.SSBaseActivity
 import com.nate.ssmvp.dagger.component.SSAppComponent
+import com.nate.ssmvp.imageloader.SSImageLoader
 import com.nate.ssmvp.imageloader.glide.GlideImageConfig
-import com.nate.ssmvp.utils.SSMvpUtils
 import com.nate.supersimplemvp.dagger.component.DaggerMainComponent
 import com.nate.supersimplemvp.dagger.module.MainModule
 import com.nate.supersimplemvp.databinding.ActivityMainBinding
@@ -17,18 +17,17 @@ import me.jessyan.progressmanager.ProgressListener
 import me.jessyan.progressmanager.ProgressManager
 import me.jessyan.progressmanager.body.ProgressInfo
 import timber.log.Timber
+import javax.inject.Inject
 
 class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
 
   private lateinit var binding: ActivityMainBinding
 
+  @Inject
+  lateinit var imageLoader: SSImageLoader
+
   override fun setupActivityComponent(ssAppComponent: SSAppComponent) {
-    DaggerMainComponent
-      .builder()
-      .sSAppComponent(ssAppComponent)
-      .mainModule(MainModule(this))
-      .build()
-      .inject(this)
+    DaggerMainComponent.builder().sSAppComponent(ssAppComponent).mainModule(MainModule(this)).build().inject(this)
   }
 
   override fun initView(savedInstanceState: Bundle?): Int {
@@ -38,11 +37,11 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
   }
 
   override fun initData(savedInstanceState: Bundle?) {
-    mPresenter?.getGitUser("JessYanCoding")
+    mPresenter?.getGitUser("NateRobinson")
 
     binding.getUserBtn.setOnClickListener {
       binding.userTv.text = "Loading..."
-      mPresenter?.getGitUser("JessYanCoding")
+      mPresenter?.getGitUser("NateRobinson")
     }
   }
 
@@ -59,9 +58,7 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
   override fun getUserSuccess(user: User) {
     binding.userTv.text = GsonUtils.toJson(user)
 
-    ProgressManager
-      .getInstance()
-      .addResponseListener(user.avatar_url, object : ProgressListener {
+    ProgressManager.getInstance().addResponseListener(user.avatar_url, object : ProgressListener {
         override fun onProgress(progressInfo: ProgressInfo) {
           Timber.d("progressInfo=>${progressInfo.percent}")
           binding.progressBar.progress = progressInfo.percent
@@ -73,18 +70,8 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
 
       })
 
-    SSMvpUtils
-      .obtainAppComponentFromContext(this)
-      .imageLoader()
-      .loadImage(
-          this, GlideImageConfig
-        .builder()
-        .imageView(binding.iv)
-        .url(user.avatar_url)
-        .isCenterCrop(true)
-        .isCircle(true)
-        .blurValue(0)
-        .build()
+    imageLoader.loadImage(
+        this, GlideImageConfig.builder().imageView(binding.iv).url(user.avatar_url).isCenterCrop(true).isCircle(true).blurValue(0).build()
       )
   }
 }

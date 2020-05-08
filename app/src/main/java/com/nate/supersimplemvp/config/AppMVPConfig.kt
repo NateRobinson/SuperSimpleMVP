@@ -33,7 +33,7 @@ class AppMVPConfig : SSMVPConfig {
         override fun configOkHttp(context: Context, builder: Builder) {
           val loggingInterceptor = HttpLoggingInterceptor(object : Logger {
             override fun log(message: String) {
-              Timber.tag("APP-OkHttp").d(message);
+              Timber.tag("APP-OkHttp").d(message)
             }
           })
           loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
