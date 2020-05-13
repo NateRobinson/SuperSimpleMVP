@@ -64,7 +64,8 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
-  implementation project(path: ':ssmvplib')
+  //implementation project(path: ':ssmvplib')
+  implementation 'com.nate.ssmvp:ssmvp:1.0.0'
   implementation rootProject.ext.dependencies["androideventbus"]
   implementation rootProject.ext.dependencies["constraintlayout"]
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
