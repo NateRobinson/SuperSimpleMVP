@@ -16,6 +16,7 @@ import com.nate.ssmvp.http.SSOkHttpHandler
 import com.nate.ssmvp.imageloader.SSIImageLoaderStrategy
 import com.nate.ssmvp.imageloader.SSImageConfig
 import com.nate.ssmvp.imageloader.glide.GlideImageLoaderStrategy
+import com.nate.ssmvp.imageloader.glide.config.GlideAppliesOptions
 import com.nate.ssmvp.utils.SSFileUtils
 import dagger.Module
 import dagger.Provides
@@ -58,6 +59,7 @@ class SSConfigModule {
   private var mCacheFactory: SSCacheFactory<String, in Any>? = null
   private var mExecutorService: ExecutorService? = null
   private var mCustomObtainService: ICustomObtainService? = null
+  private var mCustomGlideOptions: GlideAppliesOptions? = null
 
   private constructor(builder: Builder) {
     mApiUrl = builder.apiUrl
@@ -72,6 +74,7 @@ class SSConfigModule {
     mCacheFactory = builder.cacheFactory
     mExecutorService = builder.executorService
     mCustomObtainService = builder.customObtainService
+    mCustomGlideOptions = builder.customGlideOptions
   }
 
   @Singleton
@@ -181,6 +184,12 @@ class SSConfigModule {
     return mCustomObtainService
   }
 
+  @Singleton
+  @Provides
+  fun provideGlideAppliesOptions(): GlideAppliesOptions? {
+    return mCustomGlideOptions
+  }
+
   class Builder internal constructor() {
     var apiUrl: HttpUrl? = null
     var handler: SSOkHttpHandler? = null
@@ -194,6 +203,7 @@ class SSConfigModule {
     var cacheFactory: SSCacheFactory<String, in Any>? = null
     var executorService: ExecutorService? = null
     var customObtainService: ICustomObtainService? = null
+    var customGlideOptions: GlideAppliesOptions? = null
 
     fun baseUrl(baseUrl: String): Builder {
       apiUrl = baseUrl.toHttpUrlOrNull()
@@ -258,6 +268,11 @@ class SSConfigModule {
 
     fun customObtainService(customObtainService: ICustomObtainService?): Builder {
       this.customObtainService = customObtainService
+      return this
+    }
+
+    fun customGlideOptions(customGlideOptions: GlideAppliesOptions?): Builder {
+      this.customGlideOptions = customGlideOptions
       return this
     }
 

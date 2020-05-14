@@ -25,7 +25,7 @@ import io.reactivex.schedulers.Schedulers
  * 针对 Glide 定制的图片加载策略
  * Created by Nate on 2020/5/4
  */
-class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, GlideAppliesOptions {
+class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig> {
   @SuppressLint("CheckResult")
   override fun loadImage(ctx: Context, config: GlideImageConfig) {
 
@@ -101,13 +101,5 @@ class GlideImageLoaderStrategy : SSIImageLoaderStrategy<GlideImageConfig>, Glide
         Glide.get(ctx).clearMemory()
       }.subscribeOn(AndroidSchedulers.mainThread()).subscribe()
     }
-  }
-
-  override fun applyGlideOptions(context: Context, builder: GlideBuilder) {
-    // 在里面可以做自定义的操作
-  }
-
-  override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-    // 在里面可以做自定义的操作
   }
 }

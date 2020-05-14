@@ -41,23 +41,16 @@ class GlideConfiguration : AppGlideModule() {
     builder.setMemoryCache(LruResourceCache(customMemoryCacheSize.toLong()))
     builder.setBitmapPool(LruBitmapPool(customBitmapPoolSize.toLong()))
 
-    //开发者通过让 ImageLoadStrategy 实现 GlideAppliesOptions 可以做一些 Glide 自定义的配置
-    val loadImgStrategy = appComponent.imageLoader().loadImgStrategy
-    if (loadImgStrategy is GlideAppliesOptions) {
-      (loadImgStrategy as GlideAppliesOptions).applyGlideOptions(context, builder)
-    }
+    val glideAppliesOptions = appComponent.customGlideOptions()
+    glideAppliesOptions?.applyGlideOptions(context, builder)
   }
 
   override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
     // 使用 OkHttp 做网络图片请求
     val appComponent = SSMvpUtils.obtainAppComponentFromContext(context)
     registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(appComponent.okHttpClient()))
-
-    //开发者通过让 ImageLoadStrategy 实现 GlideAppliesOptions 可以做一些 Glide 自定义的配置
-    val loadImgStrategy = appComponent.imageLoader().loadImgStrategy
-    if (loadImgStrategy is GlideAppliesOptions) {
-      (loadImgStrategy as GlideAppliesOptions).registerComponents(context, glide, registry)
-    }
+    val glideAppliesOptions = appComponent.customGlideOptions()
+    glideAppliesOptions?.registerComponents(context, glide, registry)
   }
 
   override fun isManifestParsingEnabled(): Boolean {

@@ -10,6 +10,7 @@ import com.nate.ssmvp.data.SSIRepositoryManager
 import com.nate.ssmvp.data.cache.SSCache
 import com.nate.ssmvp.data.cache.SSCache.SSCacheFactory
 import com.nate.ssmvp.imageloader.SSImageLoader
+import com.nate.ssmvp.imageloader.glide.config.GlideAppliesOptions
 import com.nate.ssmvp.utils.SSMvpUtils
 import dagger.BindsInstance
 import dagger.Component
@@ -85,6 +86,8 @@ interface SSAppComponent {
    * @return [ExecutorService]
    */
   fun executorService(): ExecutorService
+
+  fun customGlideOptions(): GlideAppliesOptions?
 
   fun inject(delegate: SSAppDelegate)
 
