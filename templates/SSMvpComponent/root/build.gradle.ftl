@@ -11,4 +11,5 @@ android {
 dependencies {
     ${getConfigurationName("compile")} fileTree(dir: 'libs', include: ['*.jar'])
     api project(":ssmvplib")
+    <@kt.addKotlinDependencies />
 }
