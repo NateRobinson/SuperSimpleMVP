@@ -118,7 +118,7 @@ abstract class SSThirdLibModule {
     @Provides
     fun provideRxCache(
       application: Application, configuration: RxCacheConfiguration?, @Named("RxCacheDirectory") cacheDirectory: File, gson: Gson
-    ): RxCache? {
+    ): RxCache {
       val builder = RxCache.Builder()
       var rxCache: RxCache? = null
       if (configuration != null) {

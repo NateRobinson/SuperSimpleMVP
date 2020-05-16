@@ -20,7 +20,6 @@ open class SSBaseModel : SSIModel, LifecycleObserver {
   }
 
   override fun onDestroy() {
-    mRepositoryManager.clearAllCache()
   }
 
   @OnLifecycleEvent(ON_DESTROY)

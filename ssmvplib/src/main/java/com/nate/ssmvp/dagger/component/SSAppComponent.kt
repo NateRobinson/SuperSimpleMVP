@@ -1,6 +1,7 @@
 package com.nate.ssmvp.dagger.component
 
 import android.app.Application
+import com.google.gson.Gson
 import com.nate.ssmvp.base.SSAppDelegate
 import com.nate.ssmvp.config.SSMVPConfig
 import com.nate.ssmvp.dagger.module.SSAppModule
@@ -86,6 +87,13 @@ interface SSAppComponent {
    * @return [ExecutorService]
    */
   fun executorService(): ExecutorService
+
+  /**
+   * Json 序列化库
+   *
+   * @return [Gson]
+   */
+  fun gson(): Gson
 
   fun customGlideOptions(): GlideAppliesOptions?
 

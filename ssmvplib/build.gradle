@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'maven'
 apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
   compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -91,6 +92,10 @@ dependencies {
   api rootProject.ext.dependencies["retrofit-url-manager"]
   api rootProject.ext.dependencies["progressmanager"]
   implementation rootProject.ext.dependencies["glide-loader-okhttp3"]
+  api(rootProject.ext.dependencies["butterknife"]) {
+    exclude module: 'support-annotations'
+    exclude module: 'support-compat'
+  }
   //tools lib
   api rootProject.ext.dependencies["autosize"]
   api rootProject.ext.dependencies["dagger2"]

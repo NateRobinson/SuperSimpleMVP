@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import butterknife.ButterKnife
+import butterknife.Unbinder
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSFragmentLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
 import com.trello.rxlifecycle3.android.FragmentEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -20,10 +23,12 @@ import javax.inject.Inject
  */
 abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, SSFragmentLifecycleAble {
   private val mLifecycleSubject = BehaviorSubject.create<FragmentEvent>()
-  private lateinit var mContext: Context
+  protected lateinit var mContext: Context
+  private var mUnbinder: Unbinder? = null
 
+  @JvmField
   @Inject
-  lateinit var mPresenter: P
+  protected var mPresenter: P? = null
 
   override fun provideLifecycleSubject(): Subject<FragmentEvent> {
     return mLifecycleSubject
@@ -40,7 +45,11 @@ abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, SSFra
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return initView(inflater, container, savedInstanceState)
+    val view = initView(inflater, container, savedInstanceState)
+    if (view != null) {
+      mUnbinder = ButterKnife.bind(this, view)
+    }
+    return view
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,8 +57,23 @@ abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, SSFra
     initData(savedInstanceState)
   }
 
+  override fun onDestroyView() {
+    super.onDestroyView()
+    if (mUnbinder != null && mUnbinder !== Unbinder.EMPTY) {
+      try {
+        mUnbinder?.unbind()
+      } catch (e: IllegalStateException) {
+        e.printStackTrace()
+        //fix Bindings already cleared
+        Timber.w("onDestroyView: ${e.message}")
+      }
+    }
+  }
+
   override fun onDestroy() {
     super.onDestroy()
-    mPresenter.onDestroy()
+    mUnbinder = null
+    mPresenter?.onDestroy()
+    mPresenter = null
   }
 }

@@ -1,5 +1,6 @@
 package com.nate.supersimplemvp.mvp.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -40,8 +41,9 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
     mPresenter?.getGitUser("NateRobinson")
 
     binding.getUserBtn.setOnClickListener {
-      binding.userTv.text = "Loading..."
-      mPresenter?.getGitUser("NateRobinson")
+//      binding.userTv.text = "Loading..."
+//      mPresenter?.getGitUser("NateRobinson")
+      startActivity(Intent(this, SecondPageActivity::class.java))
     }
   }
 
@@ -59,19 +61,19 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
     binding.userTv.text = GsonUtils.toJson(user)
 
     ProgressManager.getInstance().addResponseListener(user.avatar_url, object : ProgressListener {
-        override fun onProgress(progressInfo: ProgressInfo) {
-          Timber.d("progressInfo=>${progressInfo.percent}")
-          binding.progressBar.progress = progressInfo.percent
-        }
+      override fun onProgress(progressInfo: ProgressInfo) {
+        Timber.d("progressInfo=>${progressInfo.percent}")
+        binding.progressBar.progress = progressInfo.percent
+      }
 
-        override fun onError(id: Long, e: Exception) {
-          Timber.d("progressInfo e=>$e")
-        }
+      override fun onError(id: Long, e: Exception) {
+        Timber.d("progressInfo e=>$e")
+      }
 
-      })
+    })
 
     imageLoader.loadImage(
-        this, GlideImageConfig.builder().imageView(binding.iv).url(user.avatar_url).isCenterCrop(true).isCircle(true).blurValue(0).build()
-      )
+      this, GlideImageConfig.builder().imageView(binding.iv).url(user.avatar_url).isCenterCrop(true).isCircle(true).blurValue(0).build()
+    )
   }
 }

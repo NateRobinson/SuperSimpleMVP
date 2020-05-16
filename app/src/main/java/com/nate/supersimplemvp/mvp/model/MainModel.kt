@@ -1,5 +1,6 @@
 package com.nate.supersimplemvp.mvp.model
 
+import com.google.gson.Gson
 import com.nate.ssmvp.dagger.scope.ActivityScope
 import com.nate.ssmvp.data.SSIRepositoryManager
 import com.nate.ssmvp.mvp.SSBaseModel
@@ -17,9 +18,13 @@ import javax.inject.Inject
  */
 @ActivityScope
 class MainModel @Inject constructor(repositoryManager: SSIRepositoryManager) : SSBaseModel(repositoryManager), MainContract.Model {
+  @Inject
+  lateinit var mGson: Gson
+
   override fun getGitUser(userName: String): Observable<User> {
     val gitHubService = mRepositoryManager.obtainRetrofitService(GitHubService::class.java)
-    val gitCacheProvides = mRepositoryManager.obtainCacheService(GitCacheProviders::class.java)
-    return gitCacheProvides.getUser(gitHubService.getRxUser(userName), DynamicKey(userName), EvictDynamicKey(false))
+    //val gitCacheProvides = mRepositoryManager.obtainCacheService(GitCacheProviders::class.java)
+    //return gitCacheProvides.getUser(gitHubService.getRxUser(userName), DynamicKey(userName), EvictDynamicKey(false))
+    return  gitHubService.getRxUser(userName)
   }
 }
