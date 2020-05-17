@@ -18,7 +18,7 @@ interface SSOkHttpHandler {
    * @param response [Response]
    * @return [Response]
    */
-  fun onHttpResultResponse(chain: Chain, response: Response): Response
+  fun onHttpResultResponse(chain: Chain): Response
 
   /**
    * 这里可以在请求服务器之前拿到 [Request], 做一些操作比如给 [Request] 统一添加 token 或者 header 以及参数加密等操作
@@ -34,9 +34,9 @@ interface SSOkHttpHandler {
      * 空实现
      */
     val EMPTY: SSOkHttpHandler = object : SSOkHttpHandler {
-      override fun onHttpResultResponse(chain: Chain, response: Response): Response {
+      override fun onHttpResultResponse(chain: Chain): Response {
         //不管是否处理, 都必须将 response 返回出去
-        return response
+        return chain.proceed(chain.request())
       }
 
       override fun onHttpRequestBefore(chain: Chain, request: Request): Request {

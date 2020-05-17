@@ -1,6 +1,6 @@
 package com.nate.ssmvp.lifecycle.rxlifecycle
 
-import com.trello.rxlifecycle3.RxLifecycle
+import com.trello.rxlifecycle2.RxLifecycle
 import io.reactivex.subjects.Subject
 
 /**

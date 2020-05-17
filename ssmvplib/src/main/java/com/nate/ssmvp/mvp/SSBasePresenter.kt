@@ -4,7 +4,7 @@ import androidx.lifecycle.Lifecycle.Event.ON_DESTROY
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.trello.rxlifecycle3.RxLifecycle
+import com.trello.rxlifecycle2.RxLifecycle
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 

@@ -5,19 +5,18 @@ ext {
       buildToolsVersion: "29.0.3",
       minSdkVersion: 21,
       targetSdkVersion: 29,
-      versionCode: 9,
-      versionName: "1.0.8"
+      versionCode: 13,
+      versionName: "1.0.12"
   ]
 
   version = [
       androidXVersion: "1.0.0",
       retrofitSdkVersion: "2.6.0",
-      dagger2SdkVersion: "2.27",
+      dagger2SdkVersion: "2.26",
       glideSdkVersion: "4.10.0",
       butterknifeSdkVersion: "10.1.0",
-      retrofit: "2.5.0",
-      rxlifecycle3SdkVersion: "3.1.0",
-      canarySdkVersion: "1.6.3"
+      rxlifecycle2SdkVersion: "2.2.2",
+      canarySdkVersion: "1.5.4"
   ]
 
   dependencies = [
@@ -34,7 +33,7 @@ ext {
       "retrofit": "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
       "retrofit-converter-gson": "com.squareup.retrofit2:converter-gson:${version["retrofitSdkVersion"]}",
       "retrofit-adapter-rxjava2": "com.squareup.retrofit2:adapter-rxjava2:${version["retrofitSdkVersion"]}",
-      "okhttp3": "com.squareup.okhttp3:okhttp:4.2.2",
+      "okhttp3": "com.squareup.okhttp3:okhttp:4.6.0",
       "logging-interceptor": "com.squareup.okhttp3:logging-interceptor:4.2.1",
       "progressmanager": "me.jessyan:progressmanager:1.5.0",
       "retrofit-url-manager": "me.jessyan:retrofit-url-manager:1.4.0",
@@ -57,8 +56,9 @@ ext {
       "rxjava2": "io.reactivex.rxjava2:rxjava:2.2.10",
       "rxcache2": "com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x",
       "rxcache-jolyglot-gson": "com.github.VictorAlbertos.Jolyglot:gson:0.0.4",
-      "rxlifecycle3": "com.trello.rxlifecycle3:rxlifecycle:${version["rxlifecycle3SdkVersion"]}",
-      "rxlifecycle3-android": "com.trello.rxlifecycle3:rxlifecycle-android:${version["rxlifecycle3SdkVersion"]}",
+      "rxlifecycle2": "com.trello.rxlifecycle2:rxlifecycle:${version["rxlifecycle2SdkVersion"]}",
+      "rxlifecycle2-android": "com.trello.rxlifecycle2:rxlifecycle-android:${version["rxlifecycle2SdkVersion"]}",
+      "rxlifecycle2-components": "com.trello.rxlifecycle2:rxlifecycle-components:${version["rxlifecycle2SdkVersion"]}",
 
       //tools lib
       "dagger2": "com.google.dagger:dagger:${version["dagger2SdkVersion"]}",
@@ -69,8 +69,6 @@ ext {
       "arouter-compiler": "com.alibaba:arouter-compiler:1.2.2",
       "utilcode": "com.blankj:utilcode:1.28.4",
       "autosize": "me.jessyan:autosize:1.2.1",
-      "update-app": "com.qianwen:update-app:3.5.2",
-      "lifecyclemodel": "me.jessyan:lifecyclemodel:1.0.1",
 
       //test lib
       "junit": "junit:junit:4.12",

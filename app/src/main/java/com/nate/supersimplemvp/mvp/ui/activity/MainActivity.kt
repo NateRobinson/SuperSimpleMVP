@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.nate.moduleone.mvp.ui.activity.ContactActivity
 import com.nate.ssmvp.base.SSBaseActivity
 import com.nate.ssmvp.dagger.component.SSAppComponent
 import com.nate.ssmvp.imageloader.SSImageLoader
@@ -43,7 +44,7 @@ class MainActivity : SSBaseActivity<MainPresenter>(), MainContract.View {
     binding.getUserBtn.setOnClickListener {
 //      binding.userTv.text = "Loading..."
 //      mPresenter?.getGitUser("NateRobinson")
-      startActivity(Intent(this, SecondPageActivity::class.java))
+      startActivity(Intent(this, ContactActivity::class.java))
     }
   }
 

@@ -6,11 +6,11 @@ import com.nate.ssmvp.lifecycle.rxlifecycle.SSActivityLifecycleAble
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSFragmentLifecycleAble
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSLifecycleAble
 import com.nate.ssmvp.mvp.SSIView
-import com.trello.rxlifecycle3.LifecycleTransformer
-import com.trello.rxlifecycle3.RxLifecycle
-import com.trello.rxlifecycle3.android.ActivityEvent
-import com.trello.rxlifecycle3.android.FragmentEvent
-import com.trello.rxlifecycle3.android.RxLifecycleAndroid
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.RxLifecycle
+import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.android.FragmentEvent
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid
 
 /**
  * 让继承 [SSBaseActivity] 或者 [SSBaseFragment] 的 Activity 或 Fragment 都可以使用 [RxLifecycle]

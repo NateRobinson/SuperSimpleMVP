@@ -8,7 +8,7 @@ import butterknife.Unbinder
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSActivityLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
-import com.trello.rxlifecycle3.android.ActivityEvent
+import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject

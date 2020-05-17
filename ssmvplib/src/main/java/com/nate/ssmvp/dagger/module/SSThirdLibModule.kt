@@ -81,7 +81,7 @@ abstract class SSThirdLibModule {
         })
         builder.addNetworkInterceptor(object : Interceptor {
           override fun intercept(chain: Chain): Response {
-            return handler.onHttpResultResponse(chain, chain.proceed(chain.request()))
+            return handler.onHttpResultResponse(chain)
           }
         })
       }

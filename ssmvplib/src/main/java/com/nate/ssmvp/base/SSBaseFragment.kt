@@ -11,7 +11,7 @@ import butterknife.Unbinder
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSFragmentLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
-import com.trello.rxlifecycle3.android.FragmentEvent
+import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import timber.log.Timber

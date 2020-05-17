@@ -33,8 +33,8 @@ class AppOkHttpHandler : SSOkHttpHandler {
    * @param response [Response]
    * @return [Response]
    */
-  override fun onHttpResultResponse(chain: Interceptor.Chain, response: Response): Response {
+  override fun onHttpResultResponse(chain: Interceptor.Chain): Response {
     Timber.d("****************onHttpResultResponse****************")
-    return response
+    return chain.proceed(chain.request())
   }
 }

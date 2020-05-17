@@ -25,7 +25,7 @@ class ContactActivity : SSBaseActivity<ContactPresenter>(), ContactContract.View
   }
 
   override fun initData(savedInstanceState: Bundle?) {
-
+    binding.testTv.text = "I was been updated"
   }
 
   override fun showLoading() {
