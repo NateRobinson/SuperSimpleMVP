@@ -4,7 +4,7 @@
     revision="1"
     name="SSMvp Page"
     minApi="21"
-    minBuildApi="29"
+    minBuildApi="27"
     description="一键生成配合 SuperSimple Mvp 框架的 Activity 或者 Fragment 页面">
 
     <category value="Activity" />
