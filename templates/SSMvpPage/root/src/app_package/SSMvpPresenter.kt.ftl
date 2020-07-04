@@ -37,6 +37,6 @@ SSBasePresenter<${pageName}Contract.Model, ${pageName}Contract.View>(model,rootV
 
 
     override fun onDestroy() {
-          super.onDestroy();
+          super.onDestroy()
     }
 }
