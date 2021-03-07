@@ -1,0 +1,21 @@
+{
+  "name": "ssmvp-cli",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "ssmvp": "bin/ssmvp.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "NateRobinson <xwgu007@gmail.com> (http://github.com/NateRobinson)",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "inquirer": "^8.0.0",
+    "shelljs": "^0.8.4",
+    "lodash": "^4.17.15"
+  }
+}
