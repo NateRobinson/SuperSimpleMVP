@@ -52,8 +52,8 @@ abstract class SSThirdLibModule {
       builder.baseUrl(httpUrl).client(client)
 
       configuration?.configRetrofit(application, builder)
-
-      builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create(gson))
+      builder.addCallAdapterFactory(RxJava2CallAdapterFactory
+.create()).addConverterFactory(GsonConverterFactory.create(gson))
 
       return builder.build()
     }
