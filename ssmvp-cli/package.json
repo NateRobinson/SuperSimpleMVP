@@ -13,9 +13,14 @@
   "author": "NateRobinson <xwgu007@gmail.com> (http://github.com/NateRobinson)",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^4.0.0",
+    "cli-progress": "^3.8.0",
     "commander": "^5.1.0",
     "inquirer": "^8.0.0",
-    "shelljs": "^0.8.4",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "log-symbols": "^3.0.0",
+    "ora": "^4.0.3",
+    "prettyjson": "^1.2.1",
+    "shelljs": "^0.8.4"
   }
 }

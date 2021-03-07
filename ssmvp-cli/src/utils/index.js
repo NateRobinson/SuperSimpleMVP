@@ -1,4 +1,5 @@
 const shell = require("shelljs");
+const { symbols } = require("./ui");
 /**
  * return json string with indent
  * @param {object} json object
@@ -25,7 +26,6 @@ function printWarning(...args) {
 }
 
 function printError(...args) {
-  debug(...args);
   if (args.length && args[0] instanceof Error) {
     args[0] = args[0].message;
   }
