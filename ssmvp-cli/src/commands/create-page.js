@@ -97,10 +97,11 @@ exports.run = async ({}) => {
   const answers = await askQuestions({});
   const { pageName, pageType: pageMode, moduleName } = answers;
 
-  const upperModuleName =
+  const upperModuleName = (
     toHump(moduleName || '')
       .slice(0, 1)
-      .toUpperCase() + toHump(moduleName || '').slice(1);
+      .toUpperCase() + toHump(moduleName || '').slice(1)
+  ).replace('_', '');
   const lowerModuleName =
     (moduleName || '').slice(0, 1).toLowerCase() + (moduleName || '').slice(1);
 
@@ -123,9 +124,8 @@ exports.run = async ({}) => {
   }
   const layoutFile = `${pathPart}../res/layout/${
     lowerModuleName
-      ? lowerModuleName.replace(/([A-Z])/g, '_$1').toLowerCase() + lowerModuleName.endsWith('_')
-        ? ''
-        : '_'
+      ? lowerModuleName.replace(/([A-Z])/g, '_$1').toLowerCase() +
+        (lowerModuleName.endsWith('_') ? '' : '_')
       : ''
   }${pageMode === 'only activity' ? 'activity' : 'fragment'}_${lowerCasePageName
     .replace(/([A-Z])/g, '_$1')
