@@ -47,6 +47,6 @@ import dagger.Component
 ${scopePart()}
 @Component(modules = [${pageName}Module::class],dependencies = [SSAppComponent::class])
 interface ${pageName}Component {
-	${injectPart()}
+  ${injectPart()}
 }`;
 };

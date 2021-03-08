@@ -50,7 +50,10 @@ const askQuestions = async (defaultAnswers = {}) => {
   return inquirer.prompt(questions);
 };
 
-// TODO: check all files is exit before create it
+const filePath = (dir, file) => {
+  return path.join(dir, file);
+};
+
 exports.run = async ({}) => {
   const dir = process.cwd();
   // check current package name
@@ -59,7 +62,15 @@ exports.run = async ({}) => {
     printError('You are in wrong folder, please check the folder.');
     process.exit(0);
   }
+
   const currentPackageName = dir.split('/src/main/java/')[1].replace(/\//g, '.');
+
+  // check the mvp folder with current package name
+  const mvpFolder = '/mvp';
+  if (!fs.existsSync(filePath(dir, mvpFolder))) {
+    printError('Please make sure you have a mvp folder under the package!');
+    process.exit(0);
+  }
 
   const { confirmCreate } = await inquirer.prompt({
     type: 'confirm',
@@ -75,41 +86,78 @@ exports.run = async ({}) => {
   const answers = await askQuestions({});
   const { pageName, pageType: pageMode } = answers;
 
+  const upperCasePageName = pageName.slice(0, 1).toUpperCase() + pageName.slice(1);
+  const lowerCasePageName = pageName.slice(0, 1).toLowerCase() + pageName.slice(1);
+  const activityOrFragmentFile =
+    pageMode === 'only activity'
+      ? `/mvp/ui/activity/${upperCasePageName}Activity.kt`
+      : `/mvp/ui/fragment/${upperCasePageName}Fragment.kt`;
+  const componentFile = `/dagger/component/${upperCasePageName}Component.kt`;
+  const contractFile = `/mvp/contract/${upperCasePageName}Contract.kt`;
+  const modelFile = `/mvp/model/${upperCasePageName}Model.kt`;
+  const moduleFile = `/dagger/module/${upperCasePageName}Module.kt`;
+  const presenterFile = `/mvp/presenter/${upperCasePageName}Presenter.kt`;
+  let size = currentPackageName.split('.').length;
+  let pathPart = '';
+  while (size > 0) {
+    size--;
+    pathPart += '../';
+  }
+  const layoutFile = `${pathPart}../res/layout/${
+    pageMode === 'only activity' ? 'activity' : 'fragment'
+  }_${lowerCasePageName.replace(/([A-Z])/g, '_$1').toLowerCase()}.xml`;
+
+  // check all files is exit before create them
+  if (fs.existsSync(filePath(dir, activityOrFragmentFile))) {
+    printError('The Activity or Fragment file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, componentFile))) {
+    printError('The Component file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, contractFile))) {
+    printError('The Contract file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, modelFile))) {
+    printError('The Model file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, moduleFile))) {
+    printError('The Module file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, presenterFile))) {
+    printError('The Presenter file is already exist, please check!');
+    process.exit(0);
+  }
+  if (fs.existsSync(filePath(dir, layoutFile))) {
+    printError('The layout xml file is already exist, please check!');
+    process.exit(0);
+  }
+
+  // create a activity file
   if (pageMode === 'only activity') {
-    // create a activity file
     const activityFolder = path.join(dir, '/mvp/ui/activity');
     if (!fs.existsSync(activityFolder)) {
       fs.mkdirSync(activityFolder);
     }
     fs.writeFileSync(
-      path.join(
-        dir,
-        `/mvp/ui/activity/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Activity.kt`
-      ),
-      activityTmp(
-        currentPackageName,
-        pageName.slice(0, 1).toUpperCase() + pageName.slice(1),
-        pageName.slice(0, 1).toLowerCase() + pageName.slice(1)
-      )
+      filePath(dir, activityOrFragmentFile),
+      activityTmp(currentPackageName, upperCasePageName, lowerCasePageName)
     );
   }
 
+  // create fragment file
   if (pageMode === 'only fragment') {
-    // create fragment file
     const fragmentFolder = path.join(dir, '/mvp/ui/fragment');
     if (!fs.existsSync(fragmentFolder)) {
       fs.mkdirSync(fragmentFolder);
     }
     fs.writeFileSync(
-      path.join(
-        dir,
-        `/mvp/ui/fragment/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Fragment.kt`
-      ),
-      fragmentTmp(
-        currentPackageName,
-        pageName.slice(0, 1).toUpperCase() + pageName.slice(1),
-        pageName.slice(0, 1).toLowerCase() + pageName.slice(1)
-      )
+      filePath(dir, activityOrFragmentFile),
+      fragmentTmp(currentPackageName, upperCasePageName, lowerCasePageName)
     );
   }
 
@@ -119,15 +167,8 @@ exports.run = async ({}) => {
     fs.mkdirSync(componentFolder);
   }
   fs.writeFileSync(
-    path.join(
-      dir,
-      `/dagger/component/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Component.kt`
-    ),
-    componentTmp(
-      currentPackageName,
-      pageName.slice(0, 1).toUpperCase() + pageName.slice(1),
-      pageMode
-    )
+    filePath(dir, componentFile),
+    componentTmp(currentPackageName, upperCasePageName, pageMode)
   );
 
   // create contract file
@@ -135,13 +176,7 @@ exports.run = async ({}) => {
   if (!fs.existsSync(contractFolder)) {
     fs.mkdirSync(contractFolder);
   }
-  fs.writeFileSync(
-    path.join(
-      dir,
-      `/mvp/contract/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Contract.kt`
-    ),
-    contractTmp(currentPackageName, pageName.slice(0, 1).toUpperCase() + pageName.slice(1))
-  );
+  fs.writeFileSync(filePath(dir, contractFile), contractTmp(currentPackageName, upperCasePageName));
 
   // create model file
   const modelFolder = path.join(dir, '/mvp/model');
@@ -149,8 +184,8 @@ exports.run = async ({}) => {
     fs.mkdirSync(modelFolder);
   }
   fs.writeFileSync(
-    path.join(dir, `/mvp/model/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Model.kt`),
-    modelTmp(currentPackageName, pageName.slice(0, 1).toUpperCase() + pageName.slice(1), pageMode)
+    filePath(dir, modelFile),
+    modelTmp(currentPackageName, upperCasePageName, pageMode)
   );
 
   // create moduleTmp file
@@ -159,11 +194,8 @@ exports.run = async ({}) => {
     fs.mkdirSync(moduleFolder);
   }
   fs.writeFileSync(
-    path.join(
-      dir,
-      `/dagger/module/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Module.kt`
-    ),
-    moduleTmp(currentPackageName, pageName.slice(0, 1).toUpperCase() + pageName.slice(1), pageMode)
+    filePath(dir, moduleFile),
+    moduleTmp(currentPackageName, upperCasePageName, pageMode)
   );
 
   // create presenter file
@@ -172,39 +204,17 @@ exports.run = async ({}) => {
     fs.mkdirSync(presenterFolder);
   }
   fs.writeFileSync(
-    path.join(
-      dir,
-      `/mvp/presenter/${pageName.slice(0, 1).toUpperCase() + pageName.slice(1)}Presenter.kt`
-    ),
-    presenterTmp(
-      currentPackageName,
-      pageName.slice(0, 1).toUpperCase() + pageName.slice(1),
-      pageMode
-    )
+    filePath(dir, presenterFile),
+    presenterTmp(currentPackageName, upperCasePageName, pageMode)
   );
 
   // create simple layout file
-  let size = currentPackageName.split('.').length;
-  let pathPart = '';
-  while (size > 0) {
-    size--;
-    pathPart += '../';
-  }
   const layoutFolder = path.join(dir, `${pathPart}../res/layout`);
   if (!fs.existsSync(layoutFolder)) {
     fs.mkdirSync(layoutFolder);
   }
-  fs.writeFileSync(
-    path.join(
-      dir,
-      `${pathPart}../res/layout/${pageMode === 'only activity' ? 'activity' : 'fragment'}_${(
-        pageName.slice(0, 1).toLowerCase() + pageName.slice(1)
-      )
-        .replace(/([A-Z])/g, '_$1')
-        .toLowerCase()}.xml`
-    ),
-    simpleTmp()
-  );
+  fs.writeFileSync(filePath(dir, layoutFile), simpleTmp());
+
   printSuccess('The page files was created success!');
   process.exit(0);
 };

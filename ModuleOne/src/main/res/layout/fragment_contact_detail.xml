@@ -1,5 +1,4 @@
-module.exports = () => {
-  return `<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
   <data></data>
   <LinearLayout
@@ -8,5 +7,4 @@ module.exports = () => {
     android:orientation="vertical"
     >
   </LinearLayout>
-</layout>`;
-};
+</layout>
