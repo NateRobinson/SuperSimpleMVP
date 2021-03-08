@@ -36,6 +36,5 @@ constructor(repositoryManager: SSIRepositoryManager): SSBaseModel(repositoryMana
   override fun onDestroy() {
     super.onDestroy()
   }
-}
-  `;
+}`;
 };

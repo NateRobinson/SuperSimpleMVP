@@ -3,16 +3,13 @@ module.exports = (packageName, pageName, pageMode) => {
     if (pageMode === 'activity+fragment') {
       return `import com.nate.ssmvp.dagger.scope.ActivityScope
 import ${packageName}.mvp.ui.activity.${pageName}Activity
-import ${packageName}.mvp.ui.fragment.${pageName}Fragment
-      `;
+import ${packageName}.mvp.ui.fragment.${pageName}Fragment`;
     } else if (pageMode === 'only activity') {
       return `import com.nate.ssmvp.dagger.scope.ActivityScope
-import ${packageName}.mvp.ui.activity.${pageName}Activity
-      `;
+import ${packageName}.mvp.ui.activity.${pageName}Activity`;
     } else if (pageMode === 'only fragment') {
       return `import com.nate.ssmvp.dagger.scope.FragmentScope
-import ${packageName}.mvp.ui.fragment.${pageName}Fragment
-      `;
+import ${packageName}.mvp.ui.fragment.${pageName}Fragment`;
     }
   };
 

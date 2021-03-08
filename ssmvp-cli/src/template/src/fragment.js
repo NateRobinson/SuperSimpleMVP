@@ -1,4 +1,4 @@
-module.exports = (packageName, pageName, lowerFirstPageName) => {
+module.exports = (packageName, pageName, lowerFirstPageName, upperModuleName) => {
   return `package ${packageName}.mvp.ui.fragment
 
 import android.os.Bundle
@@ -9,14 +9,14 @@ import android.view.ViewGroup
 import com.nate.ssmvp.base.SSBaseFragment
 import com.nate.ssmvp.dagger.component.SSAppComponent
 import com.blankj.utilcode.util.ToastUtils
-import ${packageName}.databinding.Fragment${pageName}Binding
+import ${packageName}.databinding.${upperModuleName}Fragment${pageName}Binding
 import ${packageName}.dagger.component.Dagger${pageName}Component
 import ${packageName}.dagger.module.${pageName}Module
 import ${packageName}.mvp.contract.${pageName}Contract
 import ${packageName}.mvp.presenter.${pageName}Presenter
 
 class ${pageName}Fragment : SSBaseFragment<${pageName}Presenter>(), ${pageName}Contract.View{
-  private lateinit var binding: Fragment${pageName}Binding
+  private lateinit var binding: ${upperModuleName}Fragment${pageName}Binding
   companion object {
     fun newInstance():${pageName}Fragment {
       val fragment = ${pageName}Fragment()
@@ -33,7 +33,7 @@ class ${pageName}Fragment : SSBaseFragment<${pageName}Presenter>(), ${pageName}C
   }
 
   override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
-    binding = Fragment${pageName}Binding.inflate(inflater)
+    binding = ${upperModuleName}Fragment${pageName}Binding.inflate(inflater)
     return binding.root
   }
 

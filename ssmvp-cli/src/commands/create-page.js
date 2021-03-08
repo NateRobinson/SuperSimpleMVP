@@ -10,7 +10,12 @@ const modelTmp = require('../template/src/model');
 const moduleTmp = require('../template/src/module');
 const presenterTmp = require('../template/src/presenter');
 const simpleTmp = require('../template/res/simple');
-const { forIn } = require('lodash');
+
+function toHump(name) {
+  return name.replace(/\_(\w)/g, function (all, letter) {
+    return letter.toUpperCase();
+  });
+}
 
 const validateThePageName = (name) => {
   if (!name || !name.trim()) {
@@ -32,6 +37,12 @@ async function getQuestions({}) {
       name: 'pageName',
       message: `Please input the page name.`,
       validate: (name) => validateThePageName(name),
+      default: '',
+    },
+    {
+      type: 'input',
+      name: 'moduleName',
+      message: `Please input module build.gradle resourcePrefix, can skip it if you don't need to.`,
       default: '',
     },
     {
@@ -84,7 +95,14 @@ exports.run = async ({}) => {
     process.exit(0);
   }
   const answers = await askQuestions({});
-  const { pageName, pageType: pageMode } = answers;
+  const { pageName, pageType: pageMode, moduleName } = answers;
+
+  const upperModuleName =
+    toHump(moduleName || '')
+      .slice(0, 1)
+      .toUpperCase() + toHump(moduleName || '').slice(1);
+  const lowerModuleName =
+    (moduleName || '').slice(0, 1).toLowerCase() + (moduleName || '').slice(1);
 
   const upperCasePageName = pageName.slice(0, 1).toUpperCase() + pageName.slice(1);
   const lowerCasePageName = pageName.slice(0, 1).toLowerCase() + pageName.slice(1);
@@ -104,8 +122,14 @@ exports.run = async ({}) => {
     pathPart += '../';
   }
   const layoutFile = `${pathPart}../res/layout/${
-    pageMode === 'only activity' ? 'activity' : 'fragment'
-  }_${lowerCasePageName.replace(/([A-Z])/g, '_$1').toLowerCase()}.xml`;
+    lowerModuleName
+      ? lowerModuleName.replace(/([A-Z])/g, '_$1').toLowerCase() + lowerModuleName.endsWith('_')
+        ? ''
+        : '_'
+      : ''
+  }${pageMode === 'only activity' ? 'activity' : 'fragment'}_${lowerCasePageName
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase()}.xml`;
 
   // check all files is exit before create them
   if (fs.existsSync(filePath(dir, activityOrFragmentFile))) {
@@ -145,7 +169,7 @@ exports.run = async ({}) => {
     }
     fs.writeFileSync(
       filePath(dir, activityOrFragmentFile),
-      activityTmp(currentPackageName, upperCasePageName, lowerCasePageName)
+      activityTmp(currentPackageName, upperCasePageName, lowerCasePageName, upperModuleName)
     );
   }
 
@@ -157,7 +181,7 @@ exports.run = async ({}) => {
     }
     fs.writeFileSync(
       filePath(dir, activityOrFragmentFile),
-      fragmentTmp(currentPackageName, upperCasePageName, lowerCasePageName)
+      fragmentTmp(currentPackageName, upperCasePageName, lowerCasePageName, upperModuleName)
     );
   }
 
