@@ -1,4 +1,4 @@
-module.exports = (packageName, pageName, pageMode) => {
+module.exports = (packageName, pageName, pageMode, daggerRootName) => {
   const importPart = () => {
     if (pageMode === 'activity+fragment') {
       return `import com.nate.ssmvp.dagger.scope.ActivityScope
@@ -34,9 +34,9 @@ import ${packageName}.mvp.ui.fragment.${pageName}Fragment`;
     }
   };
 
-  return `package ${packageName}.dagger.component
+  return `package ${packageName}.${daggerRootName}.component
 
-import ${packageName}.dagger.module.${pageName}Module
+import ${packageName}.${daggerRootName}.module.${pageName}Module
 import com.nate.ssmvp.dagger.component.SSAppComponent
 ${importPart()}
 import dagger.Component

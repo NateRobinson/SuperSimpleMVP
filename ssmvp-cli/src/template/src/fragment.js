@@ -1,4 +1,4 @@
-module.exports = (packageName, pageName, lowerFirstPageName, upperModuleName) => {
+module.exports = (packageName, pageName, lowerFirstPageName, upperModuleName, daggerRootName) => {
   return `package ${packageName}.mvp.ui.fragment
 
 import android.os.Bundle
@@ -10,8 +10,8 @@ import com.nate.ssmvp.base.SSBaseFragment
 import com.nate.ssmvp.dagger.component.SSAppComponent
 import com.blankj.utilcode.util.ToastUtils
 import ${packageName}.databinding.${upperModuleName}Fragment${pageName}Binding
-import ${packageName}.dagger.component.Dagger${pageName}Component
-import ${packageName}.dagger.module.${pageName}Module
+import ${packageName}.${daggerRootName}.component.Dagger${pageName}Component
+import ${packageName}.${daggerRootName}.module.${pageName}Module
 import ${packageName}.mvp.contract.${pageName}Contract
 import ${packageName}.mvp.presenter.${pageName}Presenter
 

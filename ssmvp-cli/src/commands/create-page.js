@@ -97,6 +97,11 @@ exports.run = async ({}) => {
   const answers = await askQuestions({});
   const { pageName, pageType: pageMode, moduleName } = answers;
 
+  let daggerRootName = 'dagger';
+  if (fs.existsSync(filePath(dir, '/di'))) {
+    daggerRootName = 'di';
+  }
+
   const upperModuleName = (
     toHump(moduleName || '')
       .slice(0, 1)
@@ -111,10 +116,10 @@ exports.run = async ({}) => {
     pageMode === 'only activity'
       ? `/mvp/ui/activity/${upperCasePageName}Activity.kt`
       : `/mvp/ui/fragment/${upperCasePageName}Fragment.kt`;
-  const componentFile = `/dagger/component/${upperCasePageName}Component.kt`;
+  const componentFile = `/${daggerRootName}/component/${upperCasePageName}Component.kt`;
   const contractFile = `/mvp/contract/${upperCasePageName}Contract.kt`;
   const modelFile = `/mvp/model/${upperCasePageName}Model.kt`;
-  const moduleFile = `/dagger/module/${upperCasePageName}Module.kt`;
+  const moduleFile = `/${daggerRootName}/module/${upperCasePageName}Module.kt`;
   const presenterFile = `/mvp/presenter/${upperCasePageName}Presenter.kt`;
   let size = currentPackageName.split('.').length;
   let pathPart = '';
@@ -169,7 +174,13 @@ exports.run = async ({}) => {
     }
     fs.writeFileSync(
       filePath(dir, activityOrFragmentFile),
-      activityTmp(currentPackageName, upperCasePageName, lowerCasePageName, upperModuleName)
+      activityTmp(
+        currentPackageName,
+        upperCasePageName,
+        lowerCasePageName,
+        upperModuleName,
+        daggerRootName
+      )
     );
   }
 
@@ -181,18 +192,24 @@ exports.run = async ({}) => {
     }
     fs.writeFileSync(
       filePath(dir, activityOrFragmentFile),
-      fragmentTmp(currentPackageName, upperCasePageName, lowerCasePageName, upperModuleName)
+      fragmentTmp(
+        currentPackageName,
+        upperCasePageName,
+        lowerCasePageName,
+        upperModuleName,
+        daggerRootName
+      )
     );
   }
 
   // create component file
-  const componentFolder = path.join(dir, '/dagger/component');
+  const componentFolder = path.join(dir, `/${daggerRootName}/component`);
   if (!fs.existsSync(componentFolder)) {
     fs.mkdirSync(componentFolder);
   }
   fs.writeFileSync(
     filePath(dir, componentFile),
-    componentTmp(currentPackageName, upperCasePageName, pageMode)
+    componentTmp(currentPackageName, upperCasePageName, pageMode, daggerRootName)
   );
 
   // create contract file
@@ -213,13 +230,13 @@ exports.run = async ({}) => {
   );
 
   // create moduleTmp file
-  const moduleFolder = path.join(dir, '/dagger/module');
+  const moduleFolder = path.join(dir, `/${daggerRootName}/module`);
   if (!fs.existsSync(moduleFolder)) {
     fs.mkdirSync(moduleFolder);
   }
   fs.writeFileSync(
     filePath(dir, moduleFile),
-    moduleTmp(currentPackageName, upperCasePageName, pageMode)
+    moduleTmp(currentPackageName, upperCasePageName, pageMode, daggerRootName)
   );
 
   // create presenter file
@@ -239,6 +256,6 @@ exports.run = async ({}) => {
   }
   fs.writeFileSync(filePath(dir, layoutFile), simpleTmp());
 
-  printSuccess('The page files was created success!');
+  printSuccess('The page files have been created success!');
   process.exit(0);
 };

@@ -1,10 +1,10 @@
-module.exports = (packageName, pageName, lowerFirstPageName, upperModuleName) => {
+module.exports = (packageName, pageName, lowerFirstPageName, upperModuleName, daggerRootName) => {
   return `package ${packageName}.mvp.ui.activity
 
 import android.os.Bundle
 import com.blankj.utilcode.util.ToastUtils
-import ${packageName}.dagger.component.Dagger${pageName}Component
-import ${packageName}.dagger.module.${pageName}Module
+import ${packageName}.${daggerRootName}.component.Dagger${pageName}Component
+import ${packageName}.${daggerRootName}.module.${pageName}Module
 import ${packageName}.databinding.${upperModuleName}Activity${pageName}Binding
 import ${packageName}.mvp.contract.${pageName}Contract
 import ${packageName}.mvp.presenter.${pageName}Presenter
