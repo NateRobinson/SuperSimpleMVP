@@ -2,9 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'maven'
-apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'maven-publish'
 
 android {
   compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -112,31 +111,16 @@ dependencies {
   }
 }
 
-allprojects {
-  afterEvaluate { project ->
-    if (project.getTasksByName("javadocRelease", false).size() > 0) {
-      project.getTasksByName("javadocRelease", false)[0].enabled = false
+afterEvaluate {
+  publishing {
+    publications {
+      // Creates a Maven publication called "release".
+      release(MavenPublication) {
+        from components.release
+        groupId = 'com.nate.ssmvp'
+        artifactId = 'SuperSimpleMVP'
+        version = rootProject.ext.android["versionName"]
+      }
     }
   }
-}
-
-uploadArchives{
-  repositories.mavenDeployer{
-    // 配置本地仓库路径，项目根目录下的repository目录中
-    repository(url: uri('../repository'))
-    pom.groupId = "com.nate.ssmvp"// 唯一标识（通常为模块包名，也可以任意）
-    pom.artifactId = "ssmvp" // 项目名称（通常为类库模块名称，也可以任意）
-    pom.version = "1.0.0" // 版本号
-  }
-}
-
-publish {
-  //远程仓库名字,不指明，默认是上传到maven
-  repoName = 'SSmvpMaven'
-  userOrg = 'ssmvp'
-  groupId = 'com.nate.ssmvp'
-  artifactId = 'ssmvp'
-  publishVersion = rootProject.ext.android["versionName"]
-  desc = 'A super simple mvp library to use mvp.'
-  website = ''
 }
