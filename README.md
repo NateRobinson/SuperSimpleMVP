@@ -1,10 +1,6 @@
 # SuperSimpleMVP
 A super simple way to create a mvp project.
 
-## TODO
-
-1. 如果写 readme 才能详细的介绍整个框架，和如何使用？？？
-
 ## 整体框架
 
 - MVP
@@ -39,14 +35,4 @@ Model 层的实例化也是通过 Dagger2 的依赖注入完成。具体的 Mode
 
 View 层即为 Activity 或者 Fragment，每个 Activity 或者 Fragment 需要实现 Contract.View 中约定的协议，同时需要完成 Dagger2 当前页面 Component 的
 初始化，完成所有的依赖注入。
-
-### Application.ActivityLifecycleCallbacks
-
-利用 Application.ActivityLifecycleCallbacks 来完成。。。。
-
-### 图片加载
-
-采用策略模式集成
-
-## 整理出所有用到的第三方库
 

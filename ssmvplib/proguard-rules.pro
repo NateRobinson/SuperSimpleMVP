@@ -39,7 +39,6 @@
 -keep public class * implements com.nate.ssmvp.config.SSMVPConfig
 
  #实体类不参与混淆
--keep class com.jess.arms.widget.** { *; } #自定义控件不参与混淆
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
