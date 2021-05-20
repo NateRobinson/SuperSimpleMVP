@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'maven-publish'
 
 android {
@@ -91,10 +90,6 @@ dependencies {
   api rootProject.ext.dependencies["retrofit-url-manager"]
   api rootProject.ext.dependencies["progressmanager"]
   implementation rootProject.ext.dependencies["glide-loader-okhttp3"]
-  api(rootProject.ext.dependencies["butterknife"]) {
-    exclude module: 'support-annotations'
-    exclude module: 'support-compat'
-  }
   //tools lib
   api rootProject.ext.dependencies["autosize"]
   api rootProject.ext.dependencies["dagger2"]

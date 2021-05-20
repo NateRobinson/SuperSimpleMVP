@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nate.ssmvp.lifecycle.rxlifecycle.SSFragmentLifecycleAble
 import com.nate.ssmvp.mvp.SSIPresenter
 import com.nate.ssmvp.utils.SSMvpUtils
@@ -15,10 +15,10 @@ import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 /**
- * super simple mvp Fragment 基类
- * Created by Nate on 2020/5/3
+ * super simple mvp BottomSheetDialogFragment 基类
+ * Created by Nate on 2021/5/20
  */
-abstract class SSBaseFragment<P : SSIPresenter> : Fragment(), SSIFragment, SSFragmentLifecycleAble {
+abstract class SSBaseBottomSheetDialogFragment<P : SSIPresenter> : BottomSheetDialogFragment(), SSIFragment, SSFragmentLifecycleAble {
   private val mLifecycleSubject = BehaviorSubject.create<FragmentEvent>()
   protected lateinit var mContext: Context
 

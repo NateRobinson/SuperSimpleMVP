@@ -5,8 +5,8 @@ ext {
       buildToolsVersion: "29.0.3",
       minSdkVersion: 21,
       targetSdkVersion: 29,
-      versionCode: 13,
-      versionName: "1.0.12"
+      versionCode: 14,
+      versionName: "1.0.13"
   ]
 
   version = [
@@ -14,7 +14,6 @@ ext {
       retrofitSdkVersion: "2.6.0",
       dagger2SdkVersion: "2.26",
       glideSdkVersion: "4.10.0",
-      butterknifeSdkVersion: "10.1.0",
       rxlifecycle2SdkVersion: "2.2.2",
       canarySdkVersion: "1.5.4"
   ]
@@ -46,8 +45,6 @@ ext {
 
       //view lib
       "BaseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30",
-      "butterknife": "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
-      "butterknife-compiler": "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
 
       //rx lib
       "rxerrorhandler2": "me.jessyan:rxerrorhandler:2.1.1",

@@ -81,18 +81,6 @@
 -keepattributes Signature
 -keepattributes Exceptions
 
-################butterknife###############
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
--keepclasseswithmembernames class * {
-   @butterknife.* <fields>;
-}
--keepclasseswithmembernames class * {
- @butterknife.* <methods>;
-}
-
-
 ################gson###############
 -keepattributes Signature
 -keepattributes *Annotation*
