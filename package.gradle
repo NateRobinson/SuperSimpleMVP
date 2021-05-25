@@ -10,7 +10,6 @@ ext {
   ]
 
   version = [
-      androidXVersion: "1.2.0",
       retrofitSdkVersion: "2.6.0",
       dagger2SdkVersion: "2.26",
       glideSdkVersion: "4.10.0",
@@ -20,10 +19,9 @@ ext {
 
   dependencies = [
       //support lib
-      "appcompat-v7": "androidx.appcompat:appcompat:${version["androidXVersion"]}",
-      "design": "com.google.android.material:material:${version["androidXVersion"]}",
-      "cardview-v7": "androidx.cardview:cardview:${version["androidXVersion"]}",
-      "recyclerview-v7": "androidx.recyclerview:recyclerview:${version["androidXVersion"]}",
+      "appcompat-v7": "androidx.appcompat:appcompat:1.2.0",
+      "design": "com.google.android.material:material:1.2.0",
+      "recyclerview-v7": "androidx.recyclerview:recyclerview:1.2.0",
       "constraintlayout": "androidx.constraintlayout:constraintlayout:1.1.3",
       "multidex": "androidx.multidex:multidex:2.0.0",
       "core-ktx": "androidx.core:core-ktx:1.2.0",
