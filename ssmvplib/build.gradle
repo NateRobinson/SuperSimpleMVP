@@ -1,12 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'maven-publish'
 
 android {
   compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-  buildToolsVersion rootProject.ext.android["buildToolsVersion"]
   useLibrary 'org.apache.http.legacy'
 
   compileOptions {
@@ -17,8 +16,6 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.android["minSdkVersion"]
     targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-    versionCode rootProject.ext.android["versionCode"]
-    versionName rootProject.ext.android["versionName"]
   }
 
   buildTypes {
@@ -102,6 +99,10 @@ dependencies {
   api rootProject.ext.dependencies["timber"]
   kapt rootProject.ext.dependencies["dagger2-compiler"]
   kapt(rootProject.ext.dependencies["glide-compiler"]) {
+    exclude module: 'jsr305'
+  }
+  annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+  annotationProcessor(rootProject.ext.dependencies["glide-compiler"]) {
     exclude module: 'jsr305'
   }
 }
