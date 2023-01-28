@@ -12,7 +12,6 @@ import com.nate.ssmvp.data.cache.SmartCache
 import com.nate.ssmvp.utils.SSMvpUtils
 
 import com.nate.moduleone.BuildConfig
-import com.squareup.leakcanary.RefWatcher
 
 /**
  * 每个 module 都可以实现 SSMVPConfig 接口做一些自定义的配置
@@ -32,14 +31,5 @@ class ModuleMVPConfig : SSMVPConfig {
   }
 
   override fun injectFragmentLifecycle(context: Context, lifecycles: ArrayList<FragmentManager.FragmentLifecycleCallbacks>) {
-    //当所有模块集成到宿主 App 时, 在 App 中已经执行了以下代码, 所以不需要再执行
-    if (BuildConfig.IS_BUILD_MODULE) {
-      lifecycles.add(object : FragmentLifecycleCallbacks() {
-        override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-          (SSMvpUtils.obtainAppComponentFromContext(f.activity as Context)
-            .extras()[SmartCache.getKeyOfKeep(RefWatcher::class.java.name)] as RefWatcher).watch(f)
-        }
-      })
-    }
   }
 }

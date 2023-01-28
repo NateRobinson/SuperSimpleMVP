@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.nate.ssmvp.data.cache.SmartCache
 import com.nate.ssmvp.utils.SSMvpUtils
-import com.squareup.leakcanary.RefWatcher
 import org.simple.eventbus.EventBus
 import timber.log.Timber
 
@@ -70,8 +69,6 @@ class AppFragmentLifecycleCallbacks : FragmentLifecycleCallbacks() {
   override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
     Timber.i("$f - onFragmentDestroyed")
     EventBus.getDefault().unregister(f)
-    (SSMvpUtils.obtainAppComponentFromContext(f.activity as Context)
-      .extras()[SmartCache.getKeyOfKeep(RefWatcher::class.java.name)] as RefWatcher).watch(f)
   }
 
   override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
